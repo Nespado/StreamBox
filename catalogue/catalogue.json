@@ -1,0 +1,5 @@
+[
+  { "id": "intro-gcp", "titre": "Introduction à Google Cloud", "duree": "0:06", "couleur": "#1a73e8", "media": "/media/demo-1.mp4" },
+  { "id": "terraform-101", "titre": "Premiers pas avec Terraform", "duree": "0:06", "couleur": "#7c3aed", "media": "/media/demo-2.mp4" },
+  { "id": "cache-cdn", "titre": "Comprendre le cache d’un CDN", "duree": "0:06", "couleur": "#0f9d8a", "media": "/media/demo-3.mp4" }
+]

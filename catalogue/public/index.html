@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StreamBox, démonstrateur</title>
+<link rel="stylesheet" href="/kit.css">
+<style>
+  video { width: 100%; aspect-ratio: 16 / 9; background: #0b1220; border-radius: 6px; display: block; }
+  .videos { display: grid; gap: 10px; }
+  .video { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; font: inherit; padding: 10px; }
+  .video .thumb { width: 64px; height: 36px; border-radius: 4px; flex-shrink: 0; background: var(--c); }
+  .video strong { display: block; color: var(--ink); }
+  .video.active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .path { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0 14px; }
+  .path span { font: 12px/1.4 var(--mono); padding: 3px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--soft); }
+  .path span.on { border-color: var(--accent); color: var(--accent); background: #eef4ff; }
+  .path i { width: 14px; height: 1px; background: #94a3b8; }
+</style>
+<script defer src="/carte.js"></script>
+<script defer src="/app.js"></script>
+</head>
+<body style="--accent:#1a73e8">
+<header><div class="bar"><span class="mark"></span><span class="brand">StreamBox</span><span class="env" id="env">connexion…</span></div></header>
+<main>
+  <div>
+    <h1>Catalogue de démonstration</h1>
+    <p class="lead">Le catalogue répond depuis Cloud Run, les vidéos arrivent par le Load Balancer et le CDN. Cette page montre par où passe chaque requête et si le cache a répondu.</p>
+  </div>
+
+  <section class="panel">
+    <h2>Carte du déploiement</h2>
+    <div class="carte" id="carte"><p class="muted">Analyse en cours…</p></div>
+  </section>
+
+  <div class="split">
+    <section class="panel">
+      <h2>Lecture</h2>
+      <video id="player" controls playsinline preload="metadata"></video>
+      <p class="muted small" id="now">Choisissez une vidéo dans le catalogue.</p>
+    </section>
+    <section class="panel">
+      <h2>Catalogue</h2>
+      <div class="videos" id="videos"><p class="muted">Chargement du catalogue…</p></div>
+    </section>
+  </div>
+
+  <div class="alert" id="alert" hidden></div>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Chemin de l’API</h2>
+      <div class="path"><span class="on">Navigateur</span><i></i><span class="on">Load Balancer</span><i></i><span class="on">Serverless NEG</span><i></i><span class="on">Cloud Run</span></div>
+      <div class="stats">
+        <div class="stat"><span>Statut</span><strong id="api-status">…</strong></div>
+        <div class="stat"><span>Latence</span><strong id="api-ms">…</strong></div>
+        <div class="stat"><span>Version</span><strong id="api-version">…</strong></div>
+        <div class="stat"><span>Instance</span><strong id="api-instance" class="small">…</strong></div>
+      </div>
+      <p class="row" style="margin-top:14px"><button id="api-retry">Rappeler l’API</button><span class="muted small">Région : <span id="api-region">…</span></span></p>
+    </section>
+
+    <section class="panel">
+      <h2>Chemin des médias</h2>
+      <div class="path"><span class="on">Navigateur</span><i></i><span class="on">Load Balancer</span><i></i><span id="hop-cdn">Cloud CDN</span><i></i><span id="hop-bucket">Cloud Storage</span></div>
+      <div class="stats">
+        <div class="stat"><span>Essais</span><strong id="media-count">0</strong></div>
+        <div class="stat"><span>Servis par le cache</span><strong id="media-hits">0</strong></div>
+        <div class="stat"><span>Dernier temps</span><strong id="media-ms">…</strong></div>
+      </div>
+      <p class="row" style="margin-top:14px"><button class="primary" id="media-test">Télécharger la vidéo</button><button id="media-burst">Cinq fois de suite</button></p>
+      <div class="scroll"><table>
+        <thead><tr><th>Heure</th><th>Statut</th><th>Taille</th><th>Temps</th><th>Cache</th></tr></thead>
+        <tbody id="media-log"><tr><td colspan="5" class="muted">Aucun essai pour l’instant.</td></tr></tbody>
+      </table></div>
+      <p class="muted small">Un temps court ne prouve pas un passage par le cache. Fiez-vous à l’en-tête de statut et, sur GCP, aux journaux du Load Balancer.</p>
+    </section>
+  </div>
+</main>
+<footer>Démonstrateur du TP Insset GCP M1 2026. Il sert à vérifier l’infrastructure, il n’est pas évalué.</footer>
+</body>
+</html>
