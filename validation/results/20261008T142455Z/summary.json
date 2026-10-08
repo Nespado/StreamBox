@@ -1,0 +1,81 @@
+{
+  "start": "2026-10-08T14:24:55.767957+00:00",
+  "end": "2026-10-08T14:28:55.790509+00:00",
+  "stopped": false,
+  "total_requests": 408,
+  "total_bytes": 8184276,
+  "phases": [
+    {
+      "users": 1,
+      "path": "/api/catalogue",
+      "requests": 24,
+      "p95_ms": 206.19,
+      "statuses": {
+        "200": 24
+      },
+      "cache": {},
+      "bytes": 11712
+    },
+    {
+      "users": 1,
+      "path": "/media/demo-1.mp4",
+      "requests": 24,
+      "p95_ms": 193.46,
+      "statuses": {
+        "200": 24
+      },
+      "cache": {
+        "hit": 24
+      },
+      "bytes": 951144
+    },
+    {
+      "users": 5,
+      "path": "/api/catalogue",
+      "requests": 60,
+      "p95_ms": 659.75,
+      "statuses": {
+        "200": 60
+      },
+      "cache": {},
+      "bytes": 29280
+    },
+    {
+      "users": 5,
+      "path": "/media/demo-1.mp4",
+      "requests": 60,
+      "p95_ms": 188.77,
+      "statuses": {
+        "200": 60
+      },
+      "cache": {
+        "hit": 60
+      },
+      "bytes": 2377860
+    },
+    {
+      "users": 10,
+      "path": "/api/catalogue",
+      "requests": 120,
+      "p95_ms": 653.44,
+      "statuses": {
+        "200": 120
+      },
+      "cache": {},
+      "bytes": 58560
+    },
+    {
+      "users": 10,
+      "path": "/media/demo-1.mp4",
+      "requests": 120,
+      "p95_ms": 197.61,
+      "statuses": {
+        "200": 120
+      },
+      "cache": {
+        "hit": 120
+      },
+      "bytes": 4755720
+    }
+  ]
+}

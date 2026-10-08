@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-10-08T14:47:42.090305+00:00",
+  "resources": [
+    {
+      "name": "streambox-obs-test-20261008t143221z",
+      "absent": true
+    },
+    {
+      "name": "10984494546083766320",
+      "absent": true
+    },
+    {
+      "name": "10919776954720883631",
+      "absent": true
+    },
+    {
+      "name": "media/validation-cache-20261008T143353Z.mp4",
+      "absent": true
+    },
+    {
+      "name": "media/validation-cache-20261008T143742Z.mp4",
+      "absent": true
+    }
+  ],
+  "http": [
+    {
+      "path": "/api/catalogue",
+      "status": 200,
+      "cache": null
+    },
+    {
+      "path": "/media/demo-1.mp4",
+      "status": 200,
+      "cache": "hit"
+    },
+    {
+      "path": "/monitoring/login",
+      "status": 200,
+      "cache": null
+    }
+  ],
+  "load_balancer_archive_objects": [],
+  "all_test_resources_absent": true
+}

@@ -1,0 +1,69 @@
+{
+  "object": "media/validation-cache-20261008T143353Z.mp4",
+  "policies": [
+    {
+      "policy": "public,max-age=60",
+      "requests": [
+        {
+          "status": 200,
+          "cache": "miss",
+          "age": null,
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 216.05
+        },
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "3",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 163.97
+        },
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "5",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 148.94
+        }
+      ]
+    },
+    {
+      "policy": "no-store",
+      "requests": [
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "7",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 142.91
+        },
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "9",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 185.81
+        },
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "11",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 206.13
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    "Objet temporaire supprime ; les objets du catalogue sont inchanges.",
+    {
+      "cache_invalidation_operation": "operation-1791470050744-65d5520001a68-f6994756-231f80f1"
+    }
+  ]
+}

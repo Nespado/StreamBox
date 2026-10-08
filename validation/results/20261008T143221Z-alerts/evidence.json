@@ -1,0 +1,1175 @@
+{
+  "test": "20261008T143221Z",
+  "service": "streambox-obs-test-20261008t143221z",
+  "requests": [
+    {
+      "time": "2026-10-08T14:32:33.520435+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 250.94
+    },
+    {
+      "time": "2026-10-08T14:32:40.480059+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1659.89
+    },
+    {
+      "time": "2026-10-08T14:32:40.480703+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1659.48
+    },
+    {
+      "time": "2026-10-08T14:32:40.491779+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1672.24
+    },
+    {
+      "time": "2026-10-08T14:32:42.005715+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 3184.91
+    },
+    {
+      "time": "2026-10-08T14:32:44.463414+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1649.77
+    },
+    {
+      "time": "2026-10-08T14:32:44.472328+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1658.84
+    },
+    {
+      "time": "2026-10-08T14:32:44.472492+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1659.12
+    },
+    {
+      "time": "2026-10-08T14:32:44.472984+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1659.88
+    },
+    {
+      "time": "2026-10-08T14:32:48.450904+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1637.02
+    },
+    {
+      "time": "2026-10-08T14:32:48.456480+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1642.3
+    },
+    {
+      "time": "2026-10-08T14:32:48.469629+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1655.94
+    },
+    {
+      "time": "2026-10-08T14:32:48.487883+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1673.85
+    },
+    {
+      "time": "2026-10-08T14:32:52.470529+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1657.5
+    },
+    {
+      "time": "2026-10-08T14:32:52.476532+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.97
+    },
+    {
+      "time": "2026-10-08T14:32:52.482500+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1669.75
+    },
+    {
+      "time": "2026-10-08T14:32:52.488405+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1675.5
+    },
+    {
+      "time": "2026-10-08T14:32:56.448366+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1635.19
+    },
+    {
+      "time": "2026-10-08T14:32:56.452677+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1639.76
+    },
+    {
+      "time": "2026-10-08T14:32:56.453052+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1640.01
+    },
+    {
+      "time": "2026-10-08T14:32:56.485814+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1672.19
+    },
+    {
+      "time": "2026-10-08T14:33:00.475448+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1662.35
+    },
+    {
+      "time": "2026-10-08T14:33:00.481302+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1668.41
+    },
+    {
+      "time": "2026-10-08T14:33:00.482815+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1669.57
+    },
+    {
+      "time": "2026-10-08T14:33:00.489491+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1676.81
+    },
+    {
+      "time": "2026-10-08T14:33:04.448198+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1635.12
+    },
+    {
+      "time": "2026-10-08T14:33:04.467496+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1654.04
+    },
+    {
+      "time": "2026-10-08T14:33:04.487358+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1674.47
+    },
+    {
+      "time": "2026-10-08T14:33:04.492932+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1679.67
+    },
+    {
+      "time": "2026-10-08T14:33:08.483969+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1670.26
+    },
+    {
+      "time": "2026-10-08T14:33:08.488572+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1674.97
+    },
+    {
+      "time": "2026-10-08T14:33:08.489007+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1675.79
+    },
+    {
+      "time": "2026-10-08T14:33:08.489108+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1675.62
+    },
+    {
+      "time": "2026-10-08T14:33:12.476429+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.77
+    },
+    {
+      "time": "2026-10-08T14:33:12.476827+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1664.03
+    },
+    {
+      "time": "2026-10-08T14:33:12.482038+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1668.91
+    },
+    {
+      "time": "2026-10-08T14:33:12.482142+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1669.19
+    },
+    {
+      "time": "2026-10-08T14:33:16.451795+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1638.5
+    },
+    {
+      "time": "2026-10-08T14:33:16.456273+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1643.5
+    },
+    {
+      "time": "2026-10-08T14:33:16.462656+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1649.7
+    },
+    {
+      "time": "2026-10-08T14:33:16.462940+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1649.82
+    },
+    {
+      "time": "2026-10-08T14:33:20.459931+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1647.05
+    },
+    {
+      "time": "2026-10-08T14:33:20.460349+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1647.62
+    },
+    {
+      "time": "2026-10-08T14:33:20.467159+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1654.16
+    },
+    {
+      "time": "2026-10-08T14:33:20.473571+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1660.98
+    },
+    {
+      "time": "2026-10-08T14:33:24.465999+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1653.3
+    },
+    {
+      "time": "2026-10-08T14:33:24.476059+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.2
+    },
+    {
+      "time": "2026-10-08T14:33:24.481754+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1668.74
+    },
+    {
+      "time": "2026-10-08T14:33:24.490077+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1677.56
+    },
+    {
+      "time": "2026-10-08T14:33:28.476538+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1664.03
+    },
+    {
+      "time": "2026-10-08T14:33:28.482225+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1669.4
+    },
+    {
+      "time": "2026-10-08T14:33:28.482668+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1669.53
+    },
+    {
+      "time": "2026-10-08T14:33:28.504467+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1691.46
+    },
+    {
+      "time": "2026-10-08T14:33:32.455065+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1642.5
+    },
+    {
+      "time": "2026-10-08T14:33:32.455734+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1641.9
+    },
+    {
+      "time": "2026-10-08T14:33:32.460900+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1647.18
+    },
+    {
+      "time": "2026-10-08T14:33:32.461506+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1648.68
+    },
+    {
+      "time": "2026-10-08T14:33:36.456279+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1643.61
+    },
+    {
+      "time": "2026-10-08T14:33:36.498751+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1685.76
+    },
+    {
+      "time": "2026-10-08T14:33:36.499134+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1686.28
+    },
+    {
+      "time": "2026-10-08T14:33:36.499488+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1686.37
+    },
+    {
+      "time": "2026-10-08T14:33:40.466060+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1653.4
+    },
+    {
+      "time": "2026-10-08T14:33:40.485252+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1672.77
+    },
+    {
+      "time": "2026-10-08T14:33:40.490706+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1677.73
+    },
+    {
+      "time": "2026-10-08T14:33:40.491364+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1678.54
+    },
+    {
+      "time": "2026-10-08T14:33:44.446661+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1633.6
+    },
+    {
+      "time": "2026-10-08T14:33:44.452061+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1639.21
+    },
+    {
+      "time": "2026-10-08T14:33:44.474789+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1662.09
+    },
+    {
+      "time": "2026-10-08T14:33:44.480475+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1667.96
+    },
+    {
+      "time": "2026-10-08T14:33:48.463133+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1650.49
+    },
+    {
+      "time": "2026-10-08T14:33:48.463413+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1650.58
+    },
+    {
+      "time": "2026-10-08T14:33:48.463665+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1651.29
+    },
+    {
+      "time": "2026-10-08T14:33:48.468760+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1656.21
+    },
+    {
+      "time": "2026-10-08T14:33:52.476640+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.47
+    },
+    {
+      "time": "2026-10-08T14:33:52.482311+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1669.46
+    },
+    {
+      "time": "2026-10-08T14:33:52.482715+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1670.11
+    },
+    {
+      "time": "2026-10-08T14:33:52.488692+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1675.68
+    },
+    {
+      "time": "2026-10-08T14:33:56.458382+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1645.64
+    },
+    {
+      "time": "2026-10-08T14:33:56.464588+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1651.23
+    },
+    {
+      "time": "2026-10-08T14:33:56.464686+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1651.54
+    },
+    {
+      "time": "2026-10-08T14:33:56.466540+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1653.54
+    },
+    {
+      "time": "2026-10-08T14:34:00.445424+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1631.12
+    },
+    {
+      "time": "2026-10-08T14:34:00.463433+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1649.39
+    },
+    {
+      "time": "2026-10-08T14:34:00.464088+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1649.52
+    },
+    {
+      "time": "2026-10-08T14:34:00.470234+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1655.8
+    },
+    {
+      "time": "2026-10-08T14:34:04.474343+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1658.82
+    },
+    {
+      "time": "2026-10-08T14:34:04.479505+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.59
+    },
+    {
+      "time": "2026-10-08T14:34:04.480190+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1664.07
+    },
+    {
+      "time": "2026-10-08T14:34:04.480680+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1665.37
+    },
+    {
+      "time": "2026-10-08T14:34:08.493526+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1680.25
+    },
+    {
+      "time": "2026-10-08T14:34:08.494004+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1681.23
+    },
+    {
+      "time": "2026-10-08T14:34:08.494167+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1680.68
+    },
+    {
+      "time": "2026-10-08T14:34:08.498283+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1685.18
+    },
+    {
+      "time": "2026-10-08T14:34:12.461720+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1648.33
+    },
+    {
+      "time": "2026-10-08T14:34:12.465370+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1651.2
+    },
+    {
+      "time": "2026-10-08T14:34:12.478500+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1664.82
+    },
+    {
+      "time": "2026-10-08T14:34:12.482739+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1668.89
+    },
+    {
+      "time": "2026-10-08T14:34:16.461150+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1648.07
+    },
+    {
+      "time": "2026-10-08T14:34:16.461560+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1648.79
+    },
+    {
+      "time": "2026-10-08T14:34:16.464984+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1651.77
+    },
+    {
+      "time": "2026-10-08T14:34:16.484238+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1670.86
+    },
+    {
+      "time": "2026-10-08T14:34:20.466550+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1653.48
+    },
+    {
+      "time": "2026-10-08T14:34:20.467018+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1654.09
+    },
+    {
+      "time": "2026-10-08T14:34:20.474436+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1661.64
+    },
+    {
+      "time": "2026-10-08T14:34:20.490557+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1677.4
+    },
+    {
+      "time": "2026-10-08T14:34:24.555298+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1739.41
+    },
+    {
+      "time": "2026-10-08T14:34:24.555829+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1740.17
+    },
+    {
+      "time": "2026-10-08T14:34:24.556162+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1740.66
+    },
+    {
+      "time": "2026-10-08T14:34:24.561284+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1745.97
+    },
+    {
+      "time": "2026-10-08T14:34:28.465223+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1652.42
+    },
+    {
+      "time": "2026-10-08T14:34:28.465571+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1652.55
+    },
+    {
+      "time": "2026-10-08T14:34:28.476166+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.57
+    },
+    {
+      "time": "2026-10-08T14:34:28.476458+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1663.55
+    },
+    {
+      "time": "2026-10-08T14:34:32.446056+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1633.54
+    },
+    {
+      "time": "2026-10-08T14:34:32.452720+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1639.89
+    },
+    {
+      "time": "2026-10-08T14:34:32.453338+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1640.7
+    },
+    {
+      "time": "2026-10-08T14:34:32.475057+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1662.13
+    },
+    {
+      "time": "2026-10-08T14:34:36.460842+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1647.98
+    },
+    {
+      "time": "2026-10-08T14:34:36.461314+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1647.81
+    },
+    {
+      "time": "2026-10-08T14:34:36.461543+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1648.21
+    },
+    {
+      "time": "2026-10-08T14:34:36.465207+00:00",
+      "fault": true,
+      "status": 500,
+      "elapsed_ms": 1652.02
+    },
+    {
+      "time": "2026-10-08T14:34:36.691232+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 223.61
+    },
+    {
+      "time": "2026-10-08T14:34:41.630196+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 162.08
+    },
+    {
+      "time": "2026-10-08T14:34:46.616898+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 147.22
+    },
+    {
+      "time": "2026-10-08T14:34:51.628464+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 160.18
+    },
+    {
+      "time": "2026-10-08T14:34:56.615233+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 147.09
+    },
+    {
+      "time": "2026-10-08T14:35:01.609371+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 139.76
+    },
+    {
+      "time": "2026-10-08T14:35:06.606544+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 137.76
+    },
+    {
+      "time": "2026-10-08T14:35:11.635450+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 166.73
+    },
+    {
+      "time": "2026-10-08T14:35:16.627015+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 158.85
+    },
+    {
+      "time": "2026-10-08T14:35:21.603737+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 134.78
+    },
+    {
+      "time": "2026-10-08T14:35:26.657972+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 189.37
+    },
+    {
+      "time": "2026-10-08T14:35:31.605401+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 137.61
+    },
+    {
+      "time": "2026-10-08T14:35:36.616045+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 148.26
+    },
+    {
+      "time": "2026-10-08T14:35:41.687044+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 218.95
+    },
+    {
+      "time": "2026-10-08T14:35:46.654328+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 186.31
+    },
+    {
+      "time": "2026-10-08T14:35:51.628739+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 160.78
+    },
+    {
+      "time": "2026-10-08T14:35:56.612035+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 143.81
+    },
+    {
+      "time": "2026-10-08T14:36:01.644897+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 176.81
+    },
+    {
+      "time": "2026-10-08T14:36:06.643798+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 175.71
+    },
+    {
+      "time": "2026-10-08T14:36:11.631410+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 163.15
+    },
+    {
+      "time": "2026-10-08T14:36:16.638984+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 170.93
+    },
+    {
+      "time": "2026-10-08T14:36:21.662332+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 194.55
+    },
+    {
+      "time": "2026-10-08T14:36:26.640727+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 172.74
+    },
+    {
+      "time": "2026-10-08T14:36:31.627299+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 159.31
+    },
+    {
+      "time": "2026-10-08T14:36:36.661964+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 194.19
+    },
+    {
+      "time": "2026-10-08T14:36:41.641319+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 173.15
+    },
+    {
+      "time": "2026-10-08T14:36:46.633987+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 166.2
+    },
+    {
+      "time": "2026-10-08T14:36:51.692127+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 224.22
+    },
+    {
+      "time": "2026-10-08T14:36:56.644994+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 177.23
+    },
+    {
+      "time": "2026-10-08T14:37:01.630522+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 162.49
+    },
+    {
+      "time": "2026-10-08T14:37:06.612511+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 144.44
+    },
+    {
+      "time": "2026-10-08T14:37:11.621112+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 153.27
+    },
+    {
+      "time": "2026-10-08T14:37:16.626519+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 158.62
+    },
+    {
+      "time": "2026-10-08T14:37:21.682895+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 214.85
+    },
+    {
+      "time": "2026-10-08T14:37:26.629827+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 161.72
+    },
+    {
+      "time": "2026-10-08T14:37:31.616071+00:00",
+      "fault": false,
+      "status": 200,
+      "elapsed_ms": 148.21
+    }
+  ],
+  "alerts": [
+    {
+      "name": "projects/streambox-insset-m1-2026/alerts/0.odl27d3fpegy",
+      "state": "CLOSED",
+      "openTime": "2026-10-08T14:39:38Z",
+      "closeTime": "2026-10-08T14:43:14Z",
+      "resource": {
+        "type": "cloud_run_revision",
+        "labels": {
+          "project_id": "streambox-insset-m1-2026"
+        }
+      },
+      "metric": {
+        "type": "ratio(run.googleapis.com/request_count, run.googleapis.com/request_count)"
+      },
+      "policy": {
+        "name": "projects/streambox-insset-m1-2026/alertPolicies/10984494546083766320",
+        "displayName": "TEST StreamBox 5xx 20261008T143221Z",
+        "severity": "ERROR",
+        "userLabels": {
+          "purpose": "observability-validation"
+        }
+      }
+    },
+    {
+      "name": "projects/streambox-insset-m1-2026/alerts/0.odl27d3fpeh2",
+      "state": "CLOSED",
+      "openTime": "2026-10-08T14:39:38Z",
+      "closeTime": "2026-10-08T14:43:14Z",
+      "resource": {
+        "type": "cloud_run_revision",
+        "labels": {
+          "project_id": "streambox-insset-m1-2026"
+        }
+      },
+      "metric": {
+        "type": "run.googleapis.com/request_count"
+      },
+      "policy": {
+        "name": "projects/streambox-insset-m1-2026/alertPolicies/10984494546083766320",
+        "displayName": "TEST StreamBox 5xx 20261008T143221Z",
+        "severity": "ERROR",
+        "userLabels": {
+          "purpose": "observability-validation"
+        }
+      }
+    },
+    {
+      "name": "projects/streambox-insset-m1-2026/alerts/0.odl25wbcxxjf",
+      "state": "CLOSED",
+      "openTime": "2026-10-08T14:37:51Z",
+      "closeTime": "2026-10-08T14:40:30Z",
+      "resource": {
+        "type": "cloud_run_revision",
+        "labels": {
+          "project_id": "streambox-insset-m1-2026"
+        }
+      },
+      "metric": {
+        "type": "run.googleapis.com/request_latencies"
+      },
+      "policy": {
+        "name": "projects/streambox-insset-m1-2026/alertPolicies/10919776954720883631",
+        "displayName": "TEST StreamBox latence 20261008T143221Z",
+        "severity": "WARNING",
+        "userLabels": {
+          "purpose": "observability-validation"
+        }
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "resource": "projects/streambox-insset-m1-2026/alertPolicies/10984494546083766320",
+      "deleted": true
+    },
+    {
+      "resource": "projects/streambox-insset-m1-2026/alertPolicies/10919776954720883631",
+      "deleted": true
+    },
+    {
+      "resource": "streambox-obs-test-20261008t143221z",
+      "deleted": true
+    }
+  ],
+  "policies": [
+    {
+      "name": "projects/streambox-insset-m1-2026/alertPolicies/10984494546083766320",
+      "displayName": "TEST StreamBox 5xx 20261008T143221Z",
+      "combiner": "AND",
+      "creationRecord": {
+        "mutateTime": "2026-10-08T14:32:36.111333459Z",
+        "mutatedBy": "swann.defossezanceaux@gmail.com"
+      },
+      "mutationRecord": {
+        "mutateTime": "2026-10-08T14:32:36.111333459Z",
+        "mutatedBy": "swann.defossezanceaux@gmail.com"
+      },
+      "conditions": [
+        {
+          "conditionThreshold": {
+            "filter": "metric.type=\"run.googleapis.com/request_count\" AND resource.type=\"cloud_run_revision\" AND resource.labels.project_id=\"streambox-insset-m1-2026\" AND resource.labels.service_name=\"streambox-obs-test-20261008t143221z\" AND resource.labels.location=\"europe-west9\" AND metric.labels.response_code_class=\"5xx\"",
+            "comparison": "COMPARISON_GT",
+            "thresholdValue": 0.01,
+            "duration": "60s",
+            "trigger": {
+              "count": 1
+            },
+            "aggregations": [
+              {
+                "alignmentPeriod": "300s",
+                "perSeriesAligner": "ALIGN_SUM",
+                "crossSeriesReducer": "REDUCE_SUM"
+              }
+            ],
+            "denominatorFilter": "metric.type=\"run.googleapis.com/request_count\" AND resource.type=\"cloud_run_revision\" AND resource.labels.project_id=\"streambox-insset-m1-2026\" AND resource.labels.service_name=\"streambox-obs-test-20261008t143221z\" AND resource.labels.location=\"europe-west9\"",
+            "denominatorAggregations": [
+              {
+                "alignmentPeriod": "300s",
+                "perSeriesAligner": "ALIGN_SUM",
+                "crossSeriesReducer": "REDUCE_SUM"
+              }
+            ],
+            "evaluationMissingData": "EVALUATION_MISSING_DATA_INACTIVE"
+          },
+          "displayName": "Plus de 1.00 % de 5xx sur 5 minutes",
+          "name": "projects/streambox-insset-m1-2026/alertPolicies/10984494546083766320/conditions/10984494546083769415"
+        },
+        {
+          "conditionThreshold": {
+            "filter": "metric.type=\"run.googleapis.com/request_count\" AND resource.type=\"cloud_run_revision\" AND resource.labels.project_id=\"streambox-insset-m1-2026\" AND resource.labels.service_name=\"streambox-obs-test-20261008t143221z\" AND resource.labels.location=\"europe-west9\"",
+            "comparison": "COMPARISON_GT",
+            "thresholdValue": 99,
+            "duration": "60s",
+            "trigger": {
+              "count": 1
+            },
+            "aggregations": [
+              {
+                "alignmentPeriod": "300s",
+                "perSeriesAligner": "ALIGN_SUM",
+                "crossSeriesReducer": "REDUCE_SUM"
+              }
+            ],
+            "evaluationMissingData": "EVALUATION_MISSING_DATA_INACTIVE"
+          },
+          "displayName": "Au moins 100 requ\u00eates sur 5 minutes",
+          "name": "projects/streambox-insset-m1-2026/alertPolicies/10984494546083766320/conditions/10984494546083767716"
+        }
+      ],
+      "documentation": {
+        "content": "TEST AUTORISE ET ISOLE. Service temporaire streambox-obs-test-20261008t143221z. Le site StreamBox reste disponible. Copie des alertes du catalogue ; latence : maintien reduit de 300 a 60 secondes. Nettoyage automatique apres verification.",
+        "mimeType": "text/markdown"
+      },
+      "notificationChannels": [
+        "projects/streambox-insset-m1-2026/notificationChannels/9538233237406223373"
+      ],
+      "userLabels": {
+        "purpose": "observability-validation"
+      },
+      "enabled": true,
+      "alertStrategy": {
+        "notificationPrompts": [
+          "OPENED",
+          "CLOSED"
+        ],
+        "autoClose": "1800s"
+      },
+      "severity": "ERROR"
+    },
+    {
+      "name": "projects/streambox-insset-m1-2026/alertPolicies/10919776954720883631",
+      "displayName": "TEST StreamBox latence 20261008T143221Z",
+      "combiner": "OR",
+      "creationRecord": {
+        "mutateTime": "2026-10-08T14:32:39.048357329Z",
+        "mutatedBy": "swann.defossezanceaux@gmail.com"
+      },
+      "mutationRecord": {
+        "mutateTime": "2026-10-08T14:32:39.048357329Z",
+        "mutatedBy": "swann.defossezanceaux@gmail.com"
+      },
+      "conditions": [
+        {
+          "conditionThreshold": {
+            "filter": "metric.type=\"run.googleapis.com/request_latencies\" AND resource.type=\"cloud_run_revision\" AND resource.labels.project_id=\"streambox-insset-m1-2026\" AND resource.labels.service_name=\"streambox-obs-test-20261008t143221z\" AND resource.labels.location=\"europe-west9\"",
+            "comparison": "COMPARISON_GT",
+            "thresholdValue": 1000,
+            "duration": "60s",
+            "trigger": {
+              "count": 1
+            },
+            "aggregations": [
+              {
+                "alignmentPeriod": "60s",
+                "perSeriesAligner": "ALIGN_SUM",
+                "crossSeriesReducer": "REDUCE_PERCENTILE_95"
+              }
+            ],
+            "evaluationMissingData": "EVALUATION_MISSING_DATA_INACTIVE"
+          },
+          "displayName": "p95 sup\u00e9rieur \u00e0 1000 ms pendant 5 minutes",
+          "name": "projects/streambox-insset-m1-2026/alertPolicies/10919776954720883631/conditions/10919776954720886248"
+        }
+      ],
+      "documentation": {
+        "content": "TEST AUTORISE ET ISOLE. Service temporaire streambox-obs-test-20261008t143221z. Le site StreamBox reste disponible. Copie des alertes du catalogue ; latence : maintien reduit de 300 a 60 secondes. Nettoyage automatique apres verification.",
+        "mimeType": "text/markdown"
+      },
+      "notificationChannels": [
+        "projects/streambox-insset-m1-2026/notificationChannels/9538233237406223373"
+      ],
+      "userLabels": {
+        "purpose": "observability-validation"
+      },
+      "enabled": true,
+      "alertStrategy": {
+        "notificationPrompts": [
+          "OPENED",
+          "CLOSED"
+        ],
+        "autoClose": "1800s"
+      },
+      "severity": "WARNING"
+    }
+  ],
+  "completed": "2026-10-08T14:43:38.912919+00:00"
+}

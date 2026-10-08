@@ -1,0 +1,337 @@
+{
+  "checked_at": "2026-10-08T14:43:41.305239+00:00",
+  "start": "2026-10-08T14:24:00Z",
+  "end": "2026-10-08T14:30:00Z",
+  "service": "streambox-catalogue",
+  "panels": [
+    {
+      "title": "Catalogue \u2014 requ\u00eates/s",
+      "query": "sum(rate(run_googleapis_com:request_count{monitored_resource=\"cloud_run_revision\",project_id=\"streambox-insset-m1-2026\",service_name=\"streambox-catalogue\",location=\"europe-west9\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {},
+              "values": [
+                [
+                  1791469440,
+                  "0.16666666666666666"
+                ],
+                [
+                  1791469500,
+                  "0.16666666666666666"
+                ],
+                [
+                  1791469560,
+                  "0.38333333333333336"
+                ],
+                [
+                  1791469620,
+                  "0.48333333333333334"
+                ],
+                [
+                  1791469680,
+                  "1.2833333333333334"
+                ],
+                [
+                  1791469740,
+                  "1.9166666666666667"
+                ],
+                [
+                  1791469800,
+                  "0.16666666666666666"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Catalogue \u2014 latence p95",
+      "query": "histogram_quantile(0.95, sum by (le) (rate(run_googleapis_com:request_latencies_bucket{monitored_resource=\"cloud_run_revision\",project_id=\"streambox-insset-m1-2026\",service_name=\"streambox-catalogue\",location=\"europe-west9\"}[1m])))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {},
+              "values": [
+                [
+                  1791469440,
+                  "9.5"
+                ],
+                [
+                  1791469500,
+                  "9.5"
+                ],
+                [
+                  1791469560,
+                  "9.5"
+                ],
+                [
+                  1791469620,
+                  "9.5"
+                ],
+                [
+                  1791469680,
+                  "9.5"
+                ],
+                [
+                  1791469740,
+                  "9.5"
+                ],
+                [
+                  1791469800,
+                  "9.5"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Catalogue \u2014 proportion de 5xx",
+      "query": "sum(rate(run_googleapis_com:request_count{monitored_resource=\"cloud_run_revision\",project_id=\"streambox-insset-m1-2026\",service_name=\"streambox-catalogue\",location=\"europe-west9\",response_code_class=\"5xx\"}[1m])) / sum(rate(run_googleapis_com:request_count{monitored_resource=\"cloud_run_revision\",project_id=\"streambox-insset-m1-2026\",service_name=\"streambox-catalogue\",location=\"europe-west9\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": []
+        }
+      }
+    },
+    {
+      "title": "Cloud Run \u2014 instances",
+      "query": "sum(run_googleapis_com:container_instance_count{monitored_resource=\"cloud_run_revision\",project_id=\"streambox-insset-m1-2026\",service_name=\"streambox-catalogue\",location=\"europe-west9\"})",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {},
+              "values": [
+                [
+                  1791469440,
+                  "1"
+                ],
+                [
+                  1791469500,
+                  "1"
+                ],
+                [
+                  1791469560,
+                  "1"
+                ],
+                [
+                  1791469620,
+                  "1"
+                ],
+                [
+                  1791469680,
+                  "1"
+                ],
+                [
+                  1791469740,
+                  "1"
+                ],
+                [
+                  1791469800,
+                  "1"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "M\u00e9dias \u2014 requ\u00eates par r\u00e9sultat du cache",
+      "query": "sum by (cache_result) (rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {
+                "cache_result": "HIT"
+              },
+              "values": [
+                [
+                  1791469560,
+                  "0.11666666666666667"
+                ],
+                [
+                  1791469620,
+                  "0.15"
+                ],
+                [
+                  1791469680,
+                  "0.8166666666666667"
+                ],
+                [
+                  1791469740,
+                  "2.35"
+                ],
+                [
+                  1791469800,
+                  "0.3"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "M\u00e9dias \u2014 proportion de HIT complets",
+      "query": "sum(rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\",cache_result=\"HIT\"}[1m])) / sum(rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {},
+              "values": [
+                [
+                  1791469560,
+                  "1"
+                ],
+                [
+                  1791469620,
+                  "1"
+                ],
+                [
+                  1791469680,
+                  "1"
+                ],
+                [
+                  1791469740,
+                  "1"
+                ],
+                [
+                  1791469800,
+                  "1"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "M\u00e9dias \u2014 d\u00e9bit distribu\u00e9",
+      "query": "sum(rate(loadbalancing_googleapis_com:https_response_bytes_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {},
+              "values": [
+                [
+                  1791469560,
+                  "5025.383333333333"
+                ],
+                [
+                  1791469620,
+                  "5775.15"
+                ],
+                [
+                  1791469680,
+                  "32838.13333333333"
+                ],
+                [
+                  1791469740,
+                  "95831.86666666667"
+                ],
+                [
+                  1791469800,
+                  "11750.266666666666"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "M\u00e9dias \u2014 d\u00e9bit depuis l\u2019origine",
+      "query": "sum(rate(loadbalancing_googleapis_com:https_backend_response_bytes_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\",cache_result=~\"MISS|DISABLED\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": []
+        }
+      }
+    },
+    {
+      "title": "M\u00e9dias \u2014 requ\u00eates \u00e0 l\u2019origine",
+      "query": "sum(rate(loadbalancing_googleapis_com:https_backend_request_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\",cache_result=~\"MISS|DISABLED\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": []
+        }
+      }
+    },
+    {
+      "title": "Load Balancer \u2014 erreurs 5xx",
+      "query": "sum(rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",response_code_class=\"500\"}[1m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": []
+        }
+      }
+    },
+    {
+      "title": "Medias \u2014 volume distribue sur la periode",
+      "query": "sum(increase(loadbalancing_googleapis_com:https_response_bytes_count{monitored_resource=\"https_lb_rule\",project_id=\"streambox-insset-m1-2026\",url_map_name=\"streambox-url-map\",backend_target_type=\"BACKEND_BUCKET\"}[5m]))",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "matrix",
+          "result": [
+            {
+              "metric": {},
+              "values": [
+                [
+                  1791469560,
+                  "301523"
+                ],
+                [
+                  1791469620,
+                  "648032"
+                ],
+                [
+                  1791469680,
+                  "2618320"
+                ],
+                [
+                  1791469740,
+                  "8368232"
+                ],
+                [
+                  1791469800,
+                  "9073248"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
