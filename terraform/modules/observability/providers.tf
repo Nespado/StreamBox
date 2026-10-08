@@ -6,8 +6,3 @@ terraform {
     }
   }
 }
-
-provider "google" {
-  project = "streambox-insset-m1-2026"
-  region  = "europe-west9"
-}
