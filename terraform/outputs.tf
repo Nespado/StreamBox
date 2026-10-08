@@ -33,5 +33,5 @@ output "url_map_id" {
 }
 
 output "streambox_url" {
-  value = module.delivery.http_url
+  value = module.delivery.https_url
 }

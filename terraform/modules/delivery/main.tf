@@ -53,7 +53,44 @@ resource "google_compute_global_address" "main" {
 resource "google_compute_target_http_proxy" "main" {
   project = var.project_id
   name    = "${var.name_prefix}-http-proxy"
-  url_map = google_compute_url_map.main.id
+  url_map = var.enable_https_redirect ? google_compute_url_map.https_redirect.id : google_compute_url_map.main.id
+}
+
+resource "google_compute_managed_ssl_certificate" "main" {
+  project = var.project_id
+  name    = "${var.name_prefix}-ssl-cert"
+
+  managed {
+    domains = [var.domain_name]
+  }
+}
+
+resource "google_compute_target_https_proxy" "main" {
+  project          = var.project_id
+  name             = "${var.name_prefix}-https-proxy"
+  url_map          = google_compute_url_map.main.id
+  ssl_certificates = [google_compute_managed_ssl_certificate.main.id]
+}
+
+resource "google_compute_global_forwarding_rule" "https" {
+  project               = var.project_id
+  name                  = "${var.name_prefix}-https"
+  ip_address            = google_compute_global_address.main.address
+  ip_protocol           = "TCP"
+  port_range            = "443"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  target                = google_compute_target_https_proxy.main.id
+}
+
+resource "google_compute_url_map" "https_redirect" {
+  project = var.project_id
+  name    = "${var.name_prefix}-https-redirect"
+
+  default_url_redirect {
+    https_redirect         = true
+    strip_query            = false
+    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
+  }
 }
 
 resource "google_compute_global_forwarding_rule" "http" {

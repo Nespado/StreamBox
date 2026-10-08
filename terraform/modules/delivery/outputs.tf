@@ -9,6 +9,11 @@ output "url_map_id" {
 }
 
 output "http_url" {
-  description = "Adresse HTTP de StreamBox pour le laboratoire sans domaine."
-  value       = "http://${google_compute_global_address.main.address}"
+  description = "Adresse HTTP du domaine, redirigée vers HTTPS après activation."
+  value       = "http://${var.domain_name}"
+}
+
+output "https_url" {
+  description = "Adresse HTTPS de StreamBox, utilisable après activation du certificat."
+  value       = "https://${var.domain_name}"
 }

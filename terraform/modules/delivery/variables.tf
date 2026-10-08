@@ -22,3 +22,14 @@ variable "name_prefix" {
   type        = string
   default     = "streambox"
 }
+variable "domain_name" {
+  description = "Domaine HTTPS de StreamBox, sans protocole ni chemin."
+  type        = string
+}
+
+variable "enable_https_redirect" {
+  description = "Activer après que le certificat HTTPS est ACTIVE."
+  type        = bool
+  default     = false
+}
+
