@@ -53,6 +53,7 @@ resource "google_compute_global_address" "main" {
 resource "google_compute_target_http_proxy" "main" {
   project = var.project_id
   name    = "${var.name_prefix}-http-proxy"
+<<<<<<< HEAD
   url_map = var.enable_https_redirect ? google_compute_url_map.https_redirect.id : google_compute_url_map.main.id
 }
 
@@ -91,6 +92,9 @@ resource "google_compute_url_map" "https_redirect" {
     strip_query            = false
     redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
   }
+=======
+  url_map = google_compute_url_map.main.id
+>>>>>>> f33deac2bbe86546ebf4182f71cdf799abc45eae
 }
 
 resource "google_compute_global_forwarding_rule" "http" {
