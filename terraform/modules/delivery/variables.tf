@@ -22,7 +22,6 @@ variable "name_prefix" {
   type        = string
   default     = "streambox"
 }
-<<<<<<< HEAD
 variable "domain_name" {
   description = "Domaine HTTPS de StreamBox, sans protocole ni chemin."
   type        = string
@@ -34,5 +33,3 @@ variable "enable_https_redirect" {
   default     = false
 }
 
-=======
->>>>>>> f33deac2bbe86546ebf4182f71cdf799abc45eae

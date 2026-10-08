@@ -40,7 +40,6 @@ module "observability" {
 
 module "delivery" {
   source = "./modules/delivery"
-
   project_id             = "streambox-insset-m1-2026"
   region                 = module.catalogue.region
   cloud_run_service_name = module.catalogue.service_name
