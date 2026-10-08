@@ -69,7 +69,7 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: "projects/streambox-insset-m1-2026/locations/global/workloadIdentityPools/streambox-github-pool/providers/streambox-github-provider"
+          workload_identity_provider: "projects/961226978803/locations/global/workloadIdentityPools/streambox-github-pool/providers/streambox-github-provider"
           service_account: "streambox-ci-deployer@streambox-insset-m1-2026.iam.gserviceaccount.com"
 
       - name: Terraform Init (GCS Remote State)
