@@ -5,11 +5,6 @@ terraform {
       version = "8.5.0"
     }
   }
-
-  backend "gcs" {
-    bucket = "bucket-insset-streambox-remote-state"
-    prefix = "terraform/state"
-  }
 }
 
 provider "google" {
