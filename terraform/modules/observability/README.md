@@ -58,9 +58,9 @@ Sur un essai peu chargé, le minimum de 100 requêtes peut empêcher volontairem
 
 Les journaux restent dans **Cloud Logging / Logs Explorer** pour déboguer. Le sink copie les nouveaux logs du service Cloud Run et de l'URL map vers GCS. Il ne déplace pas les logs et ne modifie pas la rétention Cloud Logging existante.
 
-Son identité reçoit uniquement `roles/storage.objectCreator` sur le bucket d'archives. Ce bucket interdit l'accès public. Le compte Prometheus n'a pas accès aux archives.
+Son identité reçoit uniquement `roles/storage.objectCreator` sur le bucket d'archives. Le compte Prometheus n'a pas accès aux archives. Le bucket existe déjà et reste géré par le responsable des buckets : le module observability réutilise son nom et ajoute seulement le droit d'écriture du sink.
 
-La racine configure la suppression des objets d'archives à partir de **90 jours**. C'est un choix modifiable avec `delete_after_days` ; `null` désactive la règle. Coldline facture une durée minimale de 90 jours : supprimer plus tôt peut entraîner des frais. La suppression est asynchrone et une éventuelle rétention après suppression peut prolonger le stockage. [Classes de stockage](https://docs.cloud.google.com/storage/docs/storage-classes), [cycle de vie](https://docs.cloud.google.com/storage/docs/lifecycle).
+Le contrôle GCP du 8 octobre 2026 a confirmé la classe COLDLINE, la région europe-west9 et l'absence de droits publics dans les politiques IAM consultées. La prévention d'accès public est `inherited` et aucune suppression automatique à 90 jours n'est configurée. Nous conservons ces réglages : les changements de protection ou de rétention sont à coordonner avec le responsable du bucket. Coldline a une durée minimale de stockage facturée de 90 jours, ce qui ne constitue pas une règle de suppression automatique. [Classes de stockage](https://docs.cloud.google.com/storage/docs/storage-classes).
 
 L'export peut prendre plusieurs heures au démarrage et ne reprend pas automatiquement les anciens logs. Vérifier que le Load Balancer émet réellement ses journaux et qu'ils ne sont pas exclus en amont. [Export vers Cloud Storage](https://docs.cloud.google.com/logging/docs/export/storage).
 
@@ -104,6 +104,12 @@ Les [quatre tests](../../tests/observability.tftest.hcl) utilisent un provider s
 6. Lancer Prometheus/Grafana selon leur README et vérifier le sink après le délai d'export.
 
 L'initialisation locale avec `-backend=false` ne configure pas le state partagé.
+
+### Intégration du 8 octobre 2026
+
+La branche `dev` a été intégrée avec les modules `media` et `catalogue`. Le plan complet retrouve correctement les buckets et le CDN, mais propose de créer le catalogue alors que le service et son compte existent déjà dans GCP. Le responsable du catalogue doit coordonner leur import ou la migration de leur state vers le backend commun, y compris le droit `run.invoker` géré par son module.
+
+Pour ce premier déploiement, un plan ciblant `module.observability` est utilisé exceptionnellement afin de laisser les ressources du catalogue intactes. Les dépendances de ce plan sont également relues : il ne doit créer ou modifier aucun bucket. Ne pas généraliser ce ciblage aux déploiements suivants ; refaire un plan complet après réconciliation du state du catalogue.
 
 ## Diagnostic et preuves
 
