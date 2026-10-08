@@ -46,7 +46,14 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Terraform Init (Remote State)
-        run: terraform -chdir=terraform init
+        run: |
+          for i in 1 2 3; do
+            terraform -chdir=terraform init && break || {
+              if [ "$i" -eq 3 ]; then exit 1; fi
+              echo "Terraform init a échoué (erreur réseau transitoire 503), nouvelle tentative dans 5s..."
+              sleep 5
+            }
+          done
 
       - name: Terraform Destroy
         run: terraform -chdir=terraform destroy -auto-approve
