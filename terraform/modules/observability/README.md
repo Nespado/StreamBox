@@ -111,6 +111,12 @@ La branche `dev` a été intégrée avec les modules `media` et `catalogue`. Le 
 
 Pour ce premier déploiement, un plan ciblant `module.observability` est utilisé exceptionnellement afin de laisser les ressources du catalogue intactes. Les dépendances de ce plan sont également relues : il ne doit créer ou modifier aucun bucket. Ne pas généraliser ce ciblage aux déploiements suivants ; refaire un plan complet après réconciliation du state du catalogue.
 
+### Déploiement observability effectué le 8 octobre 2026
+
+Terraform a ajouté les 12 ressources du module, sans modifier ou supprimer de ressource existante. Les activations d'API font partie de ce total, même lorsque l'API était déjà activée. Aucun bucket n'a été créé ; sa configuration de stockage est conservée. L'autorisation `storage.objectCreator` du sink a été ajoutée à la politique IAM du bucket d'archives.
+
+Les contrôles GCP ont confirmé le [dashboard de 11 graphiques](https://console.cloud.google.com/monitoring/dashboards/builder/c23026f8-a139-4094-bccd-6852839aa9a7?project=streambox-insset-m1-2026), les deux politiques d'alerte actives reliées au canal email, le sink `streambox-log-archive` vers le bucket existant et le compte de lecture Prometheus. Le bucket était encore vide au contrôle immédiatement après déploiement. La réception d'un email et l'arrivée effective des archives restent à prouver avec les essais du laboratoire et le délai d'export ; aucune panne artificielle n'a été déclenchée.
+
 ## Diagnostic et preuves
 
 **Périmètre du labo :** média de moins de 1 Mo ; référence à 1 utilisateur pendant 2 minutes ; progression 1, 5 puis 10 utilisateurs sur 5 minutes au total maximum. Les 2 000 vidéos d'environ 1 Go servent uniquement à l'estimation annuelle théorique.

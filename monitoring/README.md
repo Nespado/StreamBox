@@ -98,4 +98,4 @@ Les fichiers de dashboard et de provisioning sont la source de référence : les
 
 Images fixées : Prometheus `v3.15.0`, Grafana `13.2.3`, exporter `v0.19.0`.
 
-La configuration Compose et la configuration Prometheus ont été validées. Un test Docker isolé a vérifié le chargement des 12 panneaux Grafana, la connexion à Prometheus et l'acceptation des 12 requêtes PromQL. Il n'a utilisé aucune donnée GCP ni envoyé d'email ; ces vérifications restent à faire après déploiement.
+La configuration Compose et la configuration Prometheus ont été validées. Un test Docker isolé a vérifié le chargement des 12 panneaux Grafana, la connexion à Prometheus et l'acceptation des 12 requêtes PromQL. Il n'a utilisé aucune donnée GCP ni envoyé d'email. Le module observability a ensuite été déployé sur GCP le 8 octobre 2026, y compris le compte de lecture des métriques. L'authentification locale de l'exporter, la collecte des données réelles et la réception des emails restent à vérifier.
