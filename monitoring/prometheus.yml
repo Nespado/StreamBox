@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 60s
+  scrape_timeout: 45s
+  evaluation_interval: 60s
+
+scrape_configs:
+  - job_name: streambox-gcp
+    # L'exporter accumule les DELTA en mémoire : utiliser l'heure du scrape.
+    honor_timestamps: false
+    static_configs:
+      - targets: ["exporter:9255"]

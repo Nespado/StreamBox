@@ -16,6 +16,10 @@ local/                Ce qui remplace GCP en local, jamais déployé
 docker-compose.yml
 ```
 
+## Observabilité du projet
+
+La configuration des dashboards, alertes email et archives est décrite dans le [module Terraform observability](terraform/modules/observability/README.md). Pour lancer Prometheus et Grafana sur votre poste, suivre le [guide monitoring](monitoring/README.md).
+
 ## Lancer en local
 
 Il faut Docker avec Compose. Le premier lancement télécharge les images et fabrique les vidéos, ce qui prend une minute.
