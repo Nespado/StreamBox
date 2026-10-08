@@ -1,0 +1,60 @@
+name: "Terraform Apply & Smoke Test"
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform-apply.yml"
+  workflow_dispatch:
+    inputs:
+      auto_approve:
+        description: "Confirmer le déploiement en production"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: terraform-production
+  cancel-in-progress: false
+
+jobs:
+  apply-and-verify:
+    name: "Terraform Apply & Smoke Verification"
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Authenticate to Google Cloud via WIF
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/streambox-insset-m1-2026/locations/global/workloadIdentityPools/streambox-github-pool/providers/streambox-github-provider"
+          service_account: "streambox-ci-deployer@streambox-insset-m1-2026.iam.gserviceaccount.com"
+
+      - name: Terraform Init (Remote State)
+        run: terraform -chdir=terraform init
+
+      - name: Terraform Apply
+        run: terraform -chdir=terraform apply -auto-approve
+
+      - name: Extraction Outputs (URL & IP)
+        id: tf_outputs
+        run: |
+          TARGET_URL=$(terraform -chdir=terraform output -raw streambox_url || echo "https://streambox.chaleonm.ovh")
+          echo "target_url=$TARGET_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Exécution du Smoke Test (Parcours Nominal)
+        run: |
+          chmod +x tests/smoke/smoke_test.sh
+          ./tests/smoke/smoke_test.sh "${{ steps.tf_outputs.outputs.target_url }}"

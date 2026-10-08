@@ -1,0 +1,64 @@
+name: "Terraform Destroy (Approuvé)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Taper 'DESTROY-STREAMBOX' pour confirmer la destruction des ressources"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: terraform-production
+  cancel-in-progress: false
+
+jobs:
+  destroy:
+    name: "Détruire les ressources du Laboratoire"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérification du mot de confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirmation }}" != "DESTROY-STREAMBOX" ]; then
+            echo "::error::Confirmation invalide. Action annulée pour protéger l'infrastructure."
+            exit 1
+          fi
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Authenticate to Google Cloud via WIF
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/streambox-insset-m1-2026/locations/global/workloadIdentityPools/streambox-github-pool/providers/streambox-github-provider"
+          service_account: "streambox-ci-deployer@streambox-insset-m1-2026.iam.gserviceaccount.com"
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Terraform Init (Remote State)
+        run: terraform -chdir=terraform init
+
+      - name: Terraform Destroy
+        run: terraform -chdir=terraform destroy -auto-approve
+
+      - name: Inventaire de contrôle post-destruction
+        run: |
+          echo "=========================================================="
+          echo " Inventaire des ressources restantes sur le projet GCP"
+          echo "=========================================================="
+          echo "Services Cloud Run restants :"
+          gcloud run services list --project=streambox-insset-m1-2026 || true
+          echo "Forwarding Rules LB restantes :"
+          gcloud compute forwarding-rules list --project=streambox-insset-m1-2026 || true
+          echo "Buckets GCS restants :"
+          gcloud storage buckets list --project=streambox-insset-m1-2026 || true

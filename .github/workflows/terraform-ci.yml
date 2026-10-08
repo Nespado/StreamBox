@@ -1,0 +1,91 @@
+name: "Terraform CI (Validation & Plan)"
+
+on:
+  pull_request:
+    branches: ["main", "dev"]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform-ci.yml"
+  push:
+    branches: ["dev", "conformite"]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform-ci.yml"
+
+permissions:
+  contents: read
+  id-token: write  # Requis pour l'authentification Workload Identity Federation (OIDC)
+  pull-requests: write
+
+jobs:
+  # ----------------------------------------------------------------------------
+  # Job 1 : Lint, Validation et Tests Unitaires (sans accès au cloud)
+  # ----------------------------------------------------------------------------
+  lint-and-validate:
+    name: "Lint, Validate & Unit Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Terraform Format Check
+        run: terraform -chdir=terraform fmt -check -recursive
+
+      - name: Terraform Init (Local Validation)
+        run: terraform -chdir=terraform init -backend=false
+
+      - name: Terraform Validate
+        run: terraform -chdir=terraform validate
+
+      - name: Terraform Test (Unit Tests Observabilité)
+        run: terraform -chdir=terraform test
+
+  # ----------------------------------------------------------------------------
+  # Job 2 : Plan Authentifié via Workload Identity Federation (WIF)
+  # ----------------------------------------------------------------------------
+  plan:
+    name: "Terraform Plan (WIF Authenticated)"
+    needs: [lint-and-validate]
+    runs-on: ubuntu-latest
+    concurrency:
+      group: terraform-plan-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      # Authentification sécurisée sans clé JSON via Workload Identity Federation
+      - name: Authenticate to Google Cloud via WIF
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/streambox-insset-m1-2026/locations/global/workloadIdentityPools/streambox-github-pool/providers/streambox-github-provider"
+          service_account: "streambox-ci-deployer@streambox-insset-m1-2026.iam.gserviceaccount.com"
+
+      - name: Terraform Init (GCS Remote State)
+        run: terraform -chdir=terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform -chdir=terraform plan -no-color -out=tfplan
+          terraform -chdir=terraform show -no-color tfplan > tfplan.txt
+
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-${{ github.sha }}
+          path: |
+            terraform/tfplan
+            tfplan.txt
+          retention-days: 5
