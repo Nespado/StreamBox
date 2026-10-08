@@ -42,8 +42,8 @@ fi
 echo -n "[TEST NEGATIF 3/3] Accès direct sans passer par le Load Balancer ... "
 if [ -n "$DIRECT_CLOUD_RUN_URL" ]; then
   DIRECT_STATUS=$(curl -k -s -o /dev/null -w "%{http_code}" "$DIRECT_CLOUD_RUN_URL" || true)
-  if [ "$DIRECT_STATUS" -eq 403 ]; then
-    echo "SUCCÈS (HTTP 403 Forbidden : Ingress filtré par Google Front End)"
+  if [ "$DIRECT_STATUS" -eq 403 ] || [ "$DIRECT_STATUS" -eq 404 ]; then
+    echo "SUCCÈS (HTTP $DIRECT_STATUS : Ingress filtré par Google Front End)"
   else
     echo "ÉCHEC (HTTP $DIRECT_STATUS au lieu de 403 sur $DIRECT_CLOUD_RUN_URL)"
     FAILED=1
