@@ -38,3 +38,11 @@ module "observability" {
   create_prometheus_reader   = true
 }
 
+module "delivery" {
+  source = "./modules/delivery"
+
+  project_id             = "streambox-insset-m1-2026"
+  region                 = module.catalogue.region
+  cloud_run_service_name = module.catalogue.service_name
+  backend_bucket_id      = var.backend_bucket_id
+}
