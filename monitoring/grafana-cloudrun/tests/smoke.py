@@ -3,6 +3,7 @@
 Depuis la racine : python monitoring/grafana-cloudrun/tests/smoke.py
 """
 import base64
+import http.cookiejar
 import json
 import os
 import secrets
@@ -33,7 +34,10 @@ def check_instance():
     try:
         require(docker(
             "run", "-d", "--name", name, "-p", "127.0.0.1::8080",
+            "--memory=512m", "--memory-swap=512m",
             "-e", "GF_SECURITY_ADMIN_PASSWORD", "-e", "PORT=8080",
+            "-e", "GF_PLUGINS_PREINSTALL_DISABLED=true",
+            "-e", "GF_PLUGINS_PREINSTALL_AUTO_UPDATE=false",
             "-e", "GF_SERVER_ROOT_URL=http://localhost/monitoring/",
             "-e", "PROMETHEUS_URL=http://127.0.0.1:9090", IMAGE, env=env,
         ))
@@ -68,6 +72,30 @@ def check_instance():
             assert error.code == 401
         else:
             raise AssertionError("Dashboard accessible sans authentification")
+
+        # Parcours navigateur : cookie de session, et fichiers du plugin frontend.
+        # Le test API avec Basic auth seul ne détectait pas les plugins manquants.
+        session = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+        login = urllib.request.Request(base + "/login", data=json.dumps({
+            "user": "admin", "password": env["GF_SECURITY_ADMIN_PASSWORD"],
+        }).encode(), headers={"Content-Type": "application/json"})
+        with session.open(login, timeout=10) as response:
+            assert json.load(response)["message"] == "Logged in"
+        for _ in range(3):
+            for path in ["/api/user", "/api/plugins/prometheus/settings", "/api/dashboards/uid/streambox-observability"]:
+                with session.open(base + path, timeout=10) as response:
+                    assert response.status == 200
+                    assert "application/json" in response.headers.get("Content-Type", "")
+            with session.open(base + "/public/plugins/prometheus/module.js", timeout=10) as response:
+                assert response.status == 200
+                assert "javascript" in response.headers.get("Content-Type", "")
+                assert len(response.read()) > 1000
+            time.sleep(5)
+        logs = require(docker("logs", name))
+        assert 'msg="Installing plugin"' not in logs
+        assert 'msg="Updating plugin"' not in logs
+        state = json.loads(require(docker("inspect", name)))[0]["State"]
+        assert state["Running"] and not state["OOMKilled"]
     finally:
         docker("rm", "-f", "-v", name)
 
@@ -78,4 +106,4 @@ result = docker("run", "--rm", "-e", "PROMETHEUS_URL=http://127.0.0.1:9090",
 assert result.returncode != 0 and "Fournir GF_SECURITY_ADMIN_PASSWORD" in result.stderr
 check_instance()
 check_instance()  # Nouvelle base ephemere : provisioning identique sans volume.
-print("OK : secret obligatoire, /monitoring/, authentification, datasource et 11 panneaux recrees sur deux instances neuves.")
+print("OK : deux instances neuves a 512 Mio, secret obligatoire, session par cookie, plugin Prometheus disponible, aucun telechargement de plugin, datasource et 11 panneaux.")

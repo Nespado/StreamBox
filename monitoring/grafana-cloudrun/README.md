@@ -11,13 +11,18 @@ L'image est construite, testée et publiée dans Artifact Registry sous
 digest `sha256:9d1fd4241d432e858c0ad8523287c3fbef9f1537117e6e6ee028e0b4ff9eaaac`.
 Le [module Terraform Grafana](../../terraform/modules/grafana/README.md) configure
 le service, les secrets, l'identité et le proxy. Le module `delivery` configure
-la route du Load Balancer. Le plan est vérifié ; l'application sur GCP reste à faire.
+la route du Load Balancer. Le déploiement a réussi le 8 octobre 2026 : 13 créations,
+2 modifications et aucune suppression. Grafana est accessible sur
+`https://streambox.chaleonm.ovh/monitoring/`. Le contrôle authentifié depuis le
+service déployé a validé la datasource et les 11 requêtes. Un nouveau plan
+Terraform ne propose aucun changement.
 
 Le dashboard utilise les noms de métriques natifs GCP en PromQL. Les 11 requêtes
 ont été acceptées par l'API du projet le 8 octobre 2026. Certaines ont retourné
 des données ; les séries absentes ne sont pas une preuve de trafic nul ni
-d'absence d'erreur. Ce contrôle utilise l'identité gcloud du développeur et ne
-valide pas encore les permissions du futur service Cloud Run.
+d'absence d'erreur. Ce premier contrôle utilisait l'identité gcloud du développeur ;
+le contrôle après déploiement a ensuite validé les lectures via le compte de
+service Cloud Run et son proxy.
 
 ## Circuit de lecture prévu
 
@@ -74,6 +79,8 @@ dans `.dockerignore`. Les fichiers `.env` et les tests ne sont pas copiés.
 | `GF_SECURITY_ADMIN_PASSWORD__FILE` | Variante : chemin du secret monté en fichier. Ne pas fournir les deux variantes. |
 | `GF_SECURITY_COOKIE_SECURE` | À régler sur `true` pour l'accès public HTTPS. |
 | `GF_SECURITY_SECRET_KEY` | Secret stable à injecter depuis Secret Manager pour la configuration déployée. |
+| `GF_PLUGINS_PREINSTALL_DISABLED` | `true`, injecté par Terraform : utiliser les plugins inclus dans l'image sans téléchargement au démarrage. |
+| `GF_PLUGINS_PREINSTALL_AUTO_UPDATE` | `false`, injecté par Terraform : conserver les versions des plugins incluses dans l'image. |
 
 Grafana écoute en HTTP dans le conteneur ; le Load Balancer termine HTTPS. La
 route doit conserver `/monitoring/` et couvrir `/monitoring` et `/monitoring/*`.

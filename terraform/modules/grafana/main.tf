@@ -48,10 +48,12 @@ resource "google_cloud_run_v2_service" "grafana" {
 
       dynamic "env" {
         for_each = {
-          GF_SERVER_ROOT_URL        = var.public_url
-          GF_SECURITY_ADMIN_USER    = "admin"
-          GF_SECURITY_COOKIE_SECURE = "true"
-          PROMETHEUS_URL            = "http://127.0.0.1:9090"
+          GF_SERVER_ROOT_URL                = var.public_url
+          GF_SECURITY_ADMIN_USER            = "admin"
+          GF_SECURITY_COOKIE_SECURE         = "true"
+          GF_PLUGINS_PREINSTALL_DISABLED    = "true"
+          GF_PLUGINS_PREINSTALL_AUTO_UPDATE = "false"
+          PROMETHEUS_URL                    = "http://127.0.0.1:9090"
         }
         content {
           name  = env.key

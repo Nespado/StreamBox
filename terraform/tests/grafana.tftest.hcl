@@ -42,6 +42,13 @@ run "grafana_service" {
     )
     error_message = "Grafana doit uniquement lire les métriques et ses secrets dédiés."
   }
+  assert {
+    condition = (
+      one([for env in google_cloud_run_v2_service.grafana.template[0].containers[0].env : env.value if env.name == "GF_PLUGINS_PREINSTALL_DISABLED"]) == "true" &&
+      one([for env in google_cloud_run_v2_service.grafana.template[0].containers[0].env : env.value if env.name == "GF_PLUGINS_PREINSTALL_AUTO_UPDATE"]) == "false"
+    )
+    error_message = "Utiliser les plugins de l'image, sans installation ni mise à jour au démarrage."
+  }
 }
 
 run "delivery_routes" {
