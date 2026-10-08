@@ -23,3 +23,15 @@ output "observability" {
     prometheus_service_account_email = module.observability.prometheus_service_account_email
   }
 }
+
+output "load_balancer_ip" {
+  value = module.delivery.ip_address
+}
+
+output "url_map_id" {
+  value = module.delivery.url_map_id
+}
+
+output "streambox_url" {
+  value = module.delivery.https_url
+}

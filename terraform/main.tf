@@ -37,3 +37,14 @@ module "observability" {
   log_archive_bucket_name    = module.bucket-logs.name
   create_prometheus_reader   = true
 }
+
+module "delivery" {
+  source = "./modules/delivery"
+
+  project_id             = "streambox-insset-m1-2026"
+  region                 = module.catalogue.region
+  cloud_run_service_name = module.catalogue.service_name
+  backend_bucket_id      = var.backend_bucket_id
+  domain_name            = "streambox.chaleonm.ovh"
+  enable_https_redirect  = var.enable_https_redirect
+}
