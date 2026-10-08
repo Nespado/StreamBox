@@ -1,0 +1,71 @@
+{
+  "object": "media/validation-cache-20261008T143742Z.mp4",
+  "policies": [
+    {
+      "policy": "public,max-age=60",
+      "requests": [
+        {
+          "status": 200,
+          "cache": "miss",
+          "age": null,
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 210.24
+        },
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "2",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 149.22
+        },
+        {
+          "status": 200,
+          "cache": "hit",
+          "age": "4",
+          "cache_control": "public,max-age=60",
+          "bytes": 39631,
+          "elapsed_ms": 175.52
+        }
+      ]
+    },
+    {
+      "policy": "no-store",
+      "requests": [
+        {
+          "status": 200,
+          "cache": "miss",
+          "age": null,
+          "cache_control": "no-store",
+          "bytes": 39631,
+          "elapsed_ms": 207.58
+        },
+        {
+          "status": 200,
+          "cache": "miss",
+          "age": null,
+          "cache_control": "no-store",
+          "bytes": 39631,
+          "elapsed_ms": 246.27
+        },
+        {
+          "status": 200,
+          "cache": "miss",
+          "age": null,
+          "cache_control": "no-store",
+          "bytes": 39631,
+          "elapsed_ms": 197.36
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    "Objet temporaire supprime ; les objets du catalogue sont inchanges.",
+    {
+      "cache_invalidation_operation": "operation-1791470288101-65d552e25e10e-95408e91-a490114c",
+      "done": true
+    }
+  ],
+  "policy_change_invalidation": "operation-1791470274952-65d552d5d3ef8-a8be2672-cf7ee5bf"
+}

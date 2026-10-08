@@ -85,6 +85,14 @@ run "archive_and_reader" {
     alerts_enabled           = false
   }
   assert {
+    condition = (
+      strcontains(google_logging_project_sink.archive[0].filter, "resource.type=\"http_load_balancer\"") &&
+      !strcontains(google_logging_project_sink.archive[0].filter, "https_lb_rule") &&
+      strcontains(local.lb_filter, "https_lb_rule")
+    )
+    error_message = "Les logs LB utilisent http_load_balancer, ses métriques utilisent https_lb_rule."
+  }
+  assert {
     condition     = google_logging_project_sink.archive[0].destination == "storage.googleapis.com/streambox-test-archives" && google_logging_project_sink.archive[0].unique_writer_identity
     error_message = "Le sink doit cibler le bucket fourni avec une identité dédiée."
   }

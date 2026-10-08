@@ -42,6 +42,20 @@ resource "google_compute_url_map" "main" {
       paths   = ["/media/*"]
       service = var.backend_bucket_id
     }
+    dynamic "path_rule" {
+      for_each = var.monitoring == null ? [] : [var.monitoring]
+      content {
+        paths   = ["/monitoring", "/monitoring/*"]
+        service = google_compute_backend_service.grafana[0].id
+      }
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = var.monitoring == null || var.enable_https_redirect
+      error_message = "Activer la redirection HTTP vers HTTPS avant d'exposer la connexion Grafana."
+    }
   }
 }
 

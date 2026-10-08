@@ -125,5 +125,7 @@ La CI s'authentifie auprès de Google Cloud **sans aucune clé JSON** en utilisa
 ## 7. Observabilité et Suivi
 
 * **Cloud Monitoring :** Dashboard natif comprenant 11 graphiques (latence p95, taux d'erreurs 5xx, hit/miss Cloud CDN, octets distribués).
-* **Alertes :** Deux politiques surveillant le taux d'erreur (> 1% sur 5 min avec min. 100 requêtes) et la latence (> 1 000 ms).
-* **Stack locale :** Se référer au guide [monitoring/README.md](monitoring/README.md) pour lancer Prometheus et Grafana en local avec l'exporter Stackdriver.
+* **Alertes & Archivage :** Deux politiques surveillant le taux d'erreur (> 1% sur 5 min avec min. 100 requêtes) et la latence (> 1 000 ms), avec sink vers bucket Coldline (`terraform/modules/observability/README.md`).
+* **Grafana sur Cloud Run :** Déployé et accessible à l'adresse [StreamBox Monitoring](https://streambox.chaleonm.ovh/monitoring/) (voir `terraform/modules/grafana/README.md`).
+* **Stack locale :** Guide de monitoring local disponible dans [monitoring/README.md](monitoring/README.md).
+* **Preuves et Essais de charge :** Protocoles de test (charge, cache, alertes, reprise) et résultats horodatés documentés dans [validation/README.md](validation/README.md).

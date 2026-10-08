@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-10-08T14:36:44.497775+00:00",
+  "log_examples": [
+    {
+      "timestamp": "2026-10-08T14:36:35.256635Z",
+      "resource": {
+        "labels": {
+          "backend_service_name": "streambox-catalogue-backend",
+          "forwarding_rule_name": "streambox-https",
+          "project_id": "streambox-insset-m1-2026",
+          "target_proxy_name": "streambox-https-proxy",
+          "url_map_name": "streambox-url-map",
+          "zone": "global"
+        },
+        "type": "http_load_balancer"
+      },
+      "logName": "projects/streambox-insset-m1-2026/logs/requests",
+      "status": 200,
+      "statusDetails": "response_sent_by_backend"
+    },
+    {
+      "timestamp": "2026-10-08T14:36:34.162320Z",
+      "resource": {
+        "labels": {
+          "backend_service_name": "streambox-catalogue-backend",
+          "forwarding_rule_name": "streambox-https",
+          "project_id": "streambox-insset-m1-2026",
+          "target_proxy_name": "streambox-https-proxy",
+          "url_map_name": "streambox-url-map",
+          "zone": "global"
+        },
+        "type": "http_load_balancer"
+      },
+      "logName": "projects/streambox-insset-m1-2026/logs/requests",
+      "status": 200,
+      "statusDetails": "response_sent_by_backend"
+    }
+  ],
+  "archive": {
+    "bucket": "bucket-insset-streambox-logs",
+    "class": "COLDLINE",
+    "location": "EUROPE-WEST9",
+    "objects": 12,
+    "bytes": 4304720,
+    "sample_object": "run.googleapis.com/requests/2026/10/08/13:00:00_13:59:59_S0.json",
+    "sample_entries": 640,
+    "sample_resource_types": [
+      "cloud_run_revision"
+    ],
+    "sample_services": [
+      "streambox-catalogue"
+    ],
+    "load_balancer_archive_objects": []
+  }
+}

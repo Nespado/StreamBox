@@ -38,6 +38,15 @@ module "observability" {
   create_prometheus_reader   = true
 }
 
+module "grafana" {
+  source       = "./modules/grafana"
+  project_id   = "streambox-insset-m1-2026"
+  region       = "europe-west9"
+  service_name = "streambox-grafana"
+  public_url   = "https://streambox.chaleonm.ovh/monitoring/"
+  image        = "europe-west9-docker.pkg.dev/streambox-insset-m1-2026/streambox/grafana@sha256:9d1fd4241d432e858c0ad8523287c3fbef9f1537117e6e6ee028e0b4ff9eaaac"
+}
+
 module "delivery" {
   source                 = "./modules/delivery"
   project_id             = "streambox-insset-m1-2026"
@@ -46,4 +55,8 @@ module "delivery" {
   backend_bucket_id      = module.media.backend_bucket_id
   domain_name            = "streambox.chaleonm.ovh"
   enable_https_redirect  = var.enable_https_redirect
+  monitoring = {
+    service_name = module.grafana.service_name
+    region       = module.grafana.region
+  }
 }

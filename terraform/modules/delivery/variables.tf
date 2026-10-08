@@ -33,3 +33,12 @@ variable "enable_https_redirect" {
   default     = false
 }
 
+variable "monitoring" {
+  description = "Service Grafana optionnel à router sous /monitoring/. Nécessite HTTPS avec redirection HTTP."
+  type = object({
+    service_name = string
+    region       = string
+  })
+  default = null
+}
+

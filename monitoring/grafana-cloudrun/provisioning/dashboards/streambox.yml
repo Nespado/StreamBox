@@ -1,0 +1,11 @@
+apiVersion: 1
+providers:
+  - name: StreamBox
+    orgId: 1
+    folder: StreamBox
+    type: file
+    disableDeletion: false
+    allowUiUpdates: false
+    editable: false
+    options:
+      path: /etc/grafana/dashboards
