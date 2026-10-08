@@ -31,7 +31,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.9.8"
+          terraform_version: "1.16.5"
 
       - name: Terraform Format Check
         run: terraform -chdir=terraform fmt -check -recursive
@@ -62,7 +62,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.9.8"
+          terraform_version: "1.16.5"
 
       # Authentification sécurisée sans clé JSON via Workload Identity Federation
       - name: Authenticate to Google Cloud via WIF
