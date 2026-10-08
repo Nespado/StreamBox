@@ -5,9 +5,15 @@ terraform {
       version = "8.5.0"
     }
   }
+
+  backend "gcs" {
+    bucket = "bucket-insset-streambox-remote-state"
+    prefix = "terraform/state"
+  }
 }
 
 provider "google" {
   project = "streambox-insset-m1-2026"
   region  = "europe-west9"
+  zone    = "europe-west9-a"
 }
