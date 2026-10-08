@@ -1,5 +1,8 @@
 # Prometheus et Grafana en local
 
+> Hébergement du projet sur GCP : voir l'[image Grafana pour Cloud Run](grafana-cloudrun/README.md).
+> Ce guide décrit uniquement l'ancienne stack locale de développement, pas l'hébergement retenu pour le groupe.
+
 Cette stack lit les métriques du projet GCP via l'exporter Stackdriver, les conserve dans Prometheus et les affiche dans Grafana. Elle n'ajoute pas de route `/metrics` au catalogue.
 
 ```text

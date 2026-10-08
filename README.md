@@ -18,7 +18,7 @@ docker-compose.yml
 
 ## Observabilité du projet
 
-La configuration des dashboards, alertes email et archives est décrite dans le [module Terraform observability](terraform/modules/observability/README.md). Pour lancer Prometheus et Grafana sur votre poste, suivre le [guide monitoring](monitoring/README.md).
+La configuration des dashboards, alertes email et archives est décrite dans le [module Terraform observability](terraform/modules/observability/README.md). L'[image Grafana pour Cloud Run](monitoring/grafana-cloudrun/README.md) embarque les dashboards et la configuration pour l'hébergement GCP. Le [module Terraform Grafana](terraform/modules/grafana/README.md) prépare le service, ses secrets et le proxy vers les métriques ; son plan est vérifié, son déploiement reste à appliquer. L'ancienne stack locale est documentée dans le [guide monitoring](monitoring/README.md).
 
 ## Lancer en local
 

@@ -35,3 +35,13 @@ output "url_map_id" {
 output "streambox_url" {
   value = module.delivery.https_url
 }
+
+output "grafana" {
+  description = "Accès Grafana après déploiement ; aucune valeur secrète."
+  value = {
+    url                      = module.grafana.public_url
+    username                 = "admin"
+    admin_password_secret_id = module.grafana.admin_password_secret_id
+    service_account_email    = module.grafana.service_account_email
+  }
+}

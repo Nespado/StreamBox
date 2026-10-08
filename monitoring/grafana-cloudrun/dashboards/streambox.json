@@ -1,0 +1,670 @@
+{
+  "id": null,
+  "uid": "streambox-observability",
+  "title": "StreamBox — Observabilité",
+  "tags": [
+    "streambox",
+    "gcp"
+  ],
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "timezone": "browser",
+  "refresh": "1m",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "description": "Metriques natives GCP interrogees en PromQL via Google Managed Service for Prometheus. Publication differee de plusieurs minutes possible. Les alertes restent dans Cloud Monitoring.",
+  "templating": {
+    "list": [
+      {
+        "name": "project",
+        "label": "Projet",
+        "type": "textbox",
+        "current": {
+          "text": "streambox-insset-m1-2026",
+          "value": "streambox-insset-m1-2026"
+        },
+        "options": [
+          {
+            "text": "streambox-insset-m1-2026",
+            "value": "streambox-insset-m1-2026",
+            "selected": true
+          }
+        ],
+        "query": "streambox-insset-m1-2026",
+        "hide": 0,
+        "skipUrlSync": false
+      },
+      {
+        "name": "region",
+        "label": "Région",
+        "type": "textbox",
+        "current": {
+          "text": "europe-west9",
+          "value": "europe-west9"
+        },
+        "options": [
+          {
+            "text": "europe-west9",
+            "value": "europe-west9",
+            "selected": true
+          }
+        ],
+        "query": "europe-west9",
+        "hide": 0,
+        "skipUrlSync": false
+      },
+      {
+        "name": "service",
+        "label": "Cloud Run",
+        "type": "textbox",
+        "current": {
+          "text": "streambox-catalogue",
+          "value": "streambox-catalogue"
+        },
+        "options": [
+          {
+            "text": "streambox-catalogue",
+            "value": "streambox-catalogue",
+            "selected": true
+          }
+        ],
+        "query": "streambox-catalogue",
+        "hide": 0,
+        "skipUrlSync": false
+      },
+      {
+        "name": "url_map",
+        "label": "URL map",
+        "type": "textbox",
+        "current": {
+          "text": "streambox-url-map",
+          "value": "streambox-url-map"
+        },
+        "options": [
+          {
+            "text": "streambox-url-map",
+            "value": "streambox-url-map",
+            "selected": true
+          }
+        ],
+        "query": "streambox-url-map",
+        "hide": 0,
+        "skipUrlSync": false
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Catalogue — requêtes/s",
+      "description": "Toutes les requêtes du service, toutes révisions confondues.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(run_googleapis_com:request_count{monitored_resource=\"cloud_run_revision\",project_id=\"$project\",service_name=\"$service\",location=\"$region\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Catalogue — latence p95",
+      "description": "Latence de traitement dans Cloud Run ; estimation par histogramme, hors démarrage et trajet navigateur.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(run_googleapis_com:request_latencies_bucket{monitored_resource=\"cloud_run_revision\",project_id=\"$project\",service_name=\"$service\",location=\"$region\"}[$__rate_interval])))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Catalogue — proportion de 5xx",
+      "description": "Absence de série 5xx : le panneau peut être vide. Ne pas interpréter une absence de données comme une preuve de bon fonctionnement.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(run_googleapis_com:request_count{monitored_resource=\"cloud_run_revision\",project_id=\"$project\",service_name=\"$service\",location=\"$region\",response_code_class=\"5xx\"}[$__rate_interval])) / sum(rate(run_googleapis_com:request_count{monitored_resource=\"cloud_run_revision\",project_id=\"$project\",service_name=\"$service\",location=\"$region\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Cloud Run — instances",
+      "description": "Instances actives et inactives, toutes révisions confondues.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(run_googleapis_com:container_instance_count{monitored_resource=\"cloud_run_revision\",project_id=\"$project\",service_name=\"$service\",location=\"$region\"})",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Médias — requêtes par résultat du cache",
+      "description": "Trafic des backend buckets de cette URL map.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum by (cache_result) (rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\"}[$__rate_interval]))",
+          "legendFormat": "{{cache_result}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Médias — proportion de HIT complets",
+      "description": "HIT / toutes les requêtes média ; à recouper avec les logs pour les réponses partielles.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\",cache_result=\"HIT\"}[$__rate_interval])) / sum(rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Médias — débit distribué",
+      "description": "Débit réseau en octets/s, pas un volume cumulé facturable.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(loadbalancing_googleapis_com:https_response_bytes_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Médias — débit depuis l’origine",
+      "description": "MISS et DISABLED uniquement : les métriques backend incluent aussi des HIT synthétiques. UNKNOWN exclu.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(loadbalancing_googleapis_com:https_backend_response_bytes_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\",cache_result=~\"MISS|DISABLED\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Médias — requêtes à l’origine",
+      "description": "MISS et DISABLED uniquement. Une requête client peut provoquer plusieurs accès à l’origine.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(loadbalancing_googleapis_com:https_backend_request_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\",cache_result=~\"MISS|DISABLED\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Load Balancer — erreurs 5xx",
+      "description": "Toutes les routes de l’URL map, y compris les erreurs avant Cloud Run.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 32,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(rate(loadbalancing_googleapis_com:https_request_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",response_code_class=\"500\"}[$__rate_interval]))",
+          "legendFormat": "Valeur",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "stat",
+      "title": "Medias — volume distribue sur la periode",
+      "description": "Estimation du volume en octets sur la periode selectionnee, issue des metriques GCP ; ne remplace pas la facturation.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 40,
+        "w": 12,
+        "h": 6
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "streambox-prometheus"
+          },
+          "expr": "sum(increase(loadbalancing_googleapis_com:https_response_bytes_count{monitored_resource=\"https_lb_rule\",project_id=\"$project\",url_map_name=\"$url_map\",backend_target_type=\"BACKEND_BUCKET\"}[$__range]))",
+          "legendFormat": "Valeur",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    }
+  ]
+}
