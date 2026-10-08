@@ -1,90 +1,131 @@
-# StreamBox, kit de démarrage
+# StreamBox | Insset GCP M1 2026 (Groupe 1)
 
-Une petite API catalogue avec son interface, prête à tourner sur Cloud Run, et de quoi tout faire fonctionner sur votre machine avant de toucher à GCP. Le kit est un démonstrateur : il sert à vérifier votre infrastructure, il n’est pas évalué.
+Plateforme de diffusion de vidéos pédagogiques hautement scalable sur **Google Cloud Platform (GCP)**, orchestrée avec **Terraform**, sécurisée au moindre privilège et surveillée par **Cloud Monitoring** et **Grafana**.
 
-## Ce qu’il contient
+---
+
+## 1. Vue d'Ensemble du Projet
+
+* **Projet GCP :** `streambox-insset-m1-2026`
+* **Région principale :** `europe-west9` (Paris)
+* **Point d'entrée :** Application Load Balancer externe global HTTP/HTTPS (`streambox.chaleonm.ovh`)
+* **Couche applicative :** Microservice catalogue sur Cloud Run v2 (Serverless NEG, ingress restreint au Load Balancer)
+* **Couche média & cache :** Backend Bucket GCS (`STANDARD`) accéléré par Cloud CDN (`CACHE_ALL_STATIC`)
+* **Observabilité :** Dashboard Cloud Monitoring (11 métriques), 2 politiques d'alerte email, sink Cloud Logging vers GCS (`COLDLINE`), stack locale Prometheus / Grafana.
+
+---
+
+## 2. Structure du Dépôt
 
 ```text
-catalogue/            Le code à déployer sur Cloud Run
-  server.mjs          API (/api/catalogue) et page d’accueil, sans dépendance
-  catalogue.json      Les trois vidéos de démonstration
-  public/             Interface : lecteur, chemin de l’API, chemin des médias
-  Dockerfile
-local/                Ce qui remplace GCP en local, jamais déployé
-  edge.conf           nginx dans le rôle du Load Balancer, de Cloud CDN et du bucket
-  medias.sh           Fabrique les vidéos de test avec ffmpeg
-docker-compose.yml
+.
+├── .github/workflows/          # Pipelines CI/CD GitHub Actions (WIF fédéré)
+│   ├── terraform-ci.yml        # Lint, fmt, validate, unit test, et plan
+│   ├── terraform-apply.yml     # Apply avec approbation et smoke test nominal
+│   └── terraform-destroy.yml   # Destruction approuvée et inventaire résiduel
+├── catalogue/                  # Code Node.js du catalogue (Cloud Run)
+├── local/                      # Émulation locale Nginx et script ffmpeg
+├── docs/                       # Livrables et documentation d'architecture
+│   ├── cadrage.md              # Étape 01 : Cadrage, hypothèses, volumes et critères
+│   ├── architecture.md         # Étape 02 : Flux détaillés et découpage modulaire
+│   ├── architecture.mmd        # Schéma d'architecture Mermaid
+│   └── decisions/              # Architecture Decision Records (ADR)
+│       ├── 0001-cloud-run-pour-le-catalogue.md
+│       ├── 0002-cloud-cdn-et-backend-bucket-pour-les-medias.md
+│       └── 0003-serverless-neg-et-alb.md
+├── monitoring/                 # Stack locale Prometheus & Grafana (Stackdriver exporter)
+│   ├── compose.yml
+│   └── grafana/dashboards/streambox.json
+├── terraform/                  # Code Infrastructure-as-Code
+│   ├── bootstrap/              # Bootstrap WIF & Remote State bucket (cycle séparé)
+│   ├── modules/                # Modules réutilisables et documentés
+│   │   ├── buckets/            # Buckets GCS (media et archives logs)
+│   │   ├── catalogue/          # Service Cloud Run v2 et compte IAM dédié
+│   │   ├── delivery/           # Load Balancer, NEG, URL Map, IP, Certificat SSL
+│   │   ├── media/              # Backend Bucket Cloud CDN et permissions de lecture
+│   │   └── observability/      # Dashboard, alertes email, sink logs, Prometheus SA
+│   ├── tests/                  # Tests unitaires Terraform (observability.tftest.hcl)
+│   ├── main.tf                 # Assemblage des modules
+│   ├── variables.tf            # Variables globales
+│   ├── outputs.tf              # Sorties d'infrastructure
+│   └── providers.tf            # Backend GCS et provider Google
+└── tests/                      # Tests automatisés
+    └── smoke/
+        ├── smoke_test.sh       # Vérification du parcours nominal via LB
+        └── negative_test.sh    # Vérification des erreurs et refus attendus (403 direct)
 ```
 
-## Observabilité du projet
+---
 
-La configuration des dashboards, alertes email et archives est décrite dans le [module Terraform observability](terraform/modules/observability/README.md). L'[image Grafana pour Cloud Run](monitoring/grafana-cloudrun/README.md) embarque les dashboards et la configuration pour l'hébergement GCP. Le [module Terraform Grafana](terraform/modules/grafana/README.md) déploie le service, ses secrets et le proxy vers les métriques. Grafana est déployé et vérifié à l'adresse [StreamBox Monitoring](https://streambox.chaleonm.ovh/monitoring/) ; la procédure de connexion est dans le README du module. L'ancienne stack locale est documentée dans le [guide monitoring](monitoring/README.md).
+## 3. Lancement Local (Sans GCP)
 
-## Lancer en local
-
-Il faut Docker avec Compose. Le premier lancement télécharge les images et fabrique les vidéos, ce qui prend une minute.
-
-```sh
+Pour tester l'application avant tout déploiement :
+```bash
 docker compose up --build
 ```
+Ouvrir ensuite [http://localhost:8080](http://localhost:8080).
+Nginx simule l'Application Load Balancer et le cache CDN (`local/edge.conf`).
 
-Ouvrez ensuite http://localhost:8080. Cliquez sur « Télécharger la vidéo » plusieurs fois : le premier essai est un `MISS`, les suivants des `HIT`, et le temps chute. Les vidéos sont rangées dans `bucket/media/`, exactement comme les objets du futur bucket.
+---
 
-| Rôle | En local | Sur GCP |
-| --- | --- | --- |
-| Point d’entrée et routage | nginx, `local/edge.conf` | Application Load Balancer et URL map |
-| Cache | cache nginx et en-tête `X-Cache-Status` | Cloud CDN sur le backend bucket |
-| Stockage des vidéos | dossier `bucket/media` | Bucket Cloud Storage, objets `media/...` |
-| API et interface | conteneur `catalogue` | Cloud Run, derrière un serverless NEG |
+## 4. Déploiement Terraform
 
-Le cache local n’est qu’une imitation : il montre le principe, pas le comportement exact de Cloud CDN.
+### A. Initialisation et validation locale
 
-## Passer sur GCP
+```bash
+# Vérification du formatage
+terraform -chdir=terraform fmt -check -recursive
 
-Le code de `catalogue/` se déploie tel quel. Ce qui l’entoure, vous l’écrivez en Terraform : c’est le cœur du TP.
+# Initialisation sans accès au cloud (validation syntaxe)
+terraform -chdir=terraform init -backend=false
+terraform -chdir=terraform validate
 
-1. Construire et pousser l’image, puis noter son digest :
-
-```sh
-REGION=europe-west9
-PROJECT_ID=votre-projet
-IMAGE="$REGION-docker.pkg.dev/$PROJECT_ID/streambox/catalogue:v1"
-gcloud builds submit --tag "$IMAGE" catalogue
-gcloud artifacts docker images describe "$IMAGE" --format='value(image_summary.digest)'
+# Tests unitaires des modules
+terraform -chdir=terraform test
 ```
 
-2. Copier les vidéos dans le bucket, en gardant le préfixe `media/` :
+### B. Déploiement sur GCP avec Remote State
 
-```sh
-gcloud storage cp bucket/media/*.mp4 gs://VOTRE_BUCKET/media/
+```bash
+# Initialisation avec le backend distant GCS
+terraform -chdir=terraform init
+
+# Visualisation du plan d'exécution
+terraform -chdir=terraform plan
+
+# Application des changements
+terraform -chdir=terraform apply
 ```
 
-3. Dans votre URL map, `/media/*` va vers le backend bucket. L’API et la page d’accueil vont vers le backend du catalogue : faites-en la route par défaut, ou servez la page autrement et justifiez ce choix.
+---
 
-4. Pour que l’interface affiche le statut du cache comme en local, ajoutez au backend bucket l’en-tête de réponse personnalisé `X-Cache-Status: {cdn_cache_status}`. Sans lui, la page se rabat sur l’en-tête `Age`.
+## 5. Tests et Vérification du Parcours
 
-Ouvert directement par son URL `run.app`, le service affiche le catalogue mais pas les vidéos : c’est normal, elles ne passent pas par Cloud Run.
+Une fois le Load Balancer déployé :
 
-## Variables
+```bash
+# 1. Parcours nominal (Health check, API catalogue, CDN Hit/Miss)
+./tests/smoke/smoke_test.sh https://streambox.chaleonm.ovh
 
-| Variable | Rôle |
-| --- | --- |
-| `PORT` | Port d’écoute, fourni par Cloud Run (8080 par défaut). |
-| `APP_VERSION` | Version affichée dans l’interface, pratique pour prouver quelle révision répond. |
+# 2. Tests négatifs (Méthode non autorisée 405, 404, et rejet d'accès direct Cloud Run 403)
+./tests/smoke/negative_test.sh https://streambox.chaleonm.ovh "<URL_DIRECTE_RUN_APP>"
+```
 
-## La carte du déploiement
+---
 
-En haut de l’interface, l’architecture cible est dessinée bloc par bloc. Chaque bloc s’allume selon ce que l’application constate elle-même, avec la preuve affichée dessous :
+## 6. Pipeline CI/CD Automatisé
 
-| Couleur | Sens |
-| --- | --- |
-| vert, « prouvé » | l’application l’a vérifié elle-même |
-| orange, « à revoir » | ça fonctionne, mais c’est un anti-pattern connu |
-| rouge, « en échec » | l’application a essayé et ça ne marche pas |
-| pointillés, « pas encore détecté » | rien de visible pour l’instant |
-| gris, « à prouver vous-même » | invisible depuis l’application : montrez-le dans la console |
-| violet, « simulé en local » | l’équivalent local, en attendant le déploiement |
+La CI s'authentifie auprès de Google Cloud **sans aucune clé JSON** en utilisant **Workload Identity Federation (WIF)** :
+* **Pull Requests & Branches :** Vérification automatique du formatage, validation, tests unitaires, et génération d'un `terraform plan` privé archivé en artefact.
+* **Branche Main :** Application contrôlée du plan avec vérification post-déploiement par le script de smoke test.
+* **Destruction :** Déclenchement manuel sous approbation explicite (`DESTROY-STREAMBOX`) avec inventaire des ressources restantes.
 
-La carte constate, elle ne note pas : un bloc vert ne dit pas que votre choix est le bon, seulement qu’il est en place.
+---
 
-Pour StreamBox, le serveur vérifie Cloud Run et son identité ; le navigateur vérifie le passage par le Load Balancer, la route des médias, le cache et l’origine Cloud Storage. Aucun droit supplémentaire n’est nécessaire.
+## 7. Observabilité et Suivi
+
+* **Cloud Monitoring :** Dashboard natif comprenant 11 graphiques (latence p95, taux d'erreurs 5xx, hit/miss Cloud CDN, octets distribués).
+* **Alertes & Archivage :** Deux politiques surveillant le taux d'erreur (> 1% sur 5 min avec min. 100 requêtes) et la latence (> 1 000 ms), avec sink vers bucket Coldline (`terraform/modules/observability/README.md`).
+* **Grafana sur Cloud Run :** Déployé et accessible à l'adresse [StreamBox Monitoring](https://streambox.chaleonm.ovh/monitoring/) (voir `terraform/modules/grafana/README.md`).
+* **Stack locale :** Guide de monitoring local disponible dans [monitoring/README.md](monitoring/README.md).
+* **Preuves et Essais de charge :** Protocoles de test (charge, cache, alertes, reprise) et résultats horodatés documentés dans [validation/README.md](validation/README.md).
