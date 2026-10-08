@@ -8,7 +8,7 @@ resource "google_monitoring_alert_policy" "catalogue_errors" {
   notification_channels = [google_monitoring_notification_channel.email.name]
 
   conditions {
-    display_name = "Plus de ${var.error_ratio_threshold * 100} % de 5xx sur 5 minutes"
+    display_name = "Plus de ${format("%.2f", var.error_ratio_threshold * 100)} % de 5xx sur 5 minutes"
     condition_threshold {
       filter                  = local.run_errors
       denominator_filter      = local.run_requests
@@ -56,7 +56,7 @@ resource "google_monitoring_alert_policy" "catalogue_errors" {
     mime_type = "text/markdown"
     content   = <<-EOT
       Service : ${var.cloud_run_service_name} (${var.region}).
-      Plus de ${var.error_ratio_threshold * 100} % de 5xx et au moins ${var.minimum_requests}
+      Plus de ${format("%.2f", var.error_ratio_threshold * 100)} % de 5xx et au moins ${var.minimum_requests}
       requêtes sur 5 minutes, conditions maintenues 60 secondes.
 
       Ouvrir le dashboard StreamBox et les logs Cloud Run, comparer les révisions

@@ -1,3 +1,15 @@
+output "catalogue_url" {
+  value = module.catalogue.service_uri
+}
+
+output "catalogue_name" {
+  value = module.catalogue.service_name
+}
+
+output "catalogue_region" {
+  value = module.catalogue.region
+}
+
 output "observability" {
   description = "Liens et identifiants utiles pour vérifier l'observabilité après déploiement."
   value = {
@@ -10,15 +22,4 @@ output "observability" {
     archive_writer_identity          = module.observability.archive_writer_identity
     prometheus_service_account_email = module.observability.prometheus_service_account_email
   }
-}
-output "catalogue_url" {
-  value = module.catalogue.service_uri
-}
-
-output "catalogue_name" {
-  value = module.catalogue.service_name
-}
-
-output "catalogue_region" {
-  value = module.catalogue.region
 }
