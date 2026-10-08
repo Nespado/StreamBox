@@ -37,3 +37,4 @@ module "observability" {
   log_archive_bucket_name    = module.bucket-logs.name
   create_prometheus_reader   = true
 }
+

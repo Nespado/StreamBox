@@ -23,3 +23,4 @@ output "observability" {
     prometheus_service_account_email = module.observability.prometheus_service_account_email
   }
 }
+
