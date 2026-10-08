@@ -105,6 +105,7 @@ resource "google_compute_url_map" "https_redirect" {
     strip_query            = false
     redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
   }
+}
 
 resource "google_compute_global_forwarding_rule" "http" {
   project               = var.project_id
