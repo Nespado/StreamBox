@@ -9,13 +9,22 @@ module "catalogue" {
 }
 
 module "bucket-media" {
-    source = "./modules/buckets"
-    name = "bucket-insset-streambox-media"
-    bucket-class = "STANDARD"
+  source       = "./modules/buckets"
+  name         = "bucket-insset-streambox-media"
+  bucket-class = "STANDARD"
 }
 
 module "bucket-logs" {
-    source = "./modules/buckets"
-    name = "bucket-insset-streambox-logs"
-    bucket-class = "COLDLINE"
+  source       = "./modules/buckets"
+  name         = "bucket-insset-streambox-logs"
+  bucket-class = "COLDLINE"
+}
+
+module "delivery" {
+  source = "./modules/delivery"
+
+  project_id             = "streambox-insset-m1-2026"
+  region                 = module.catalogue.region
+  cloud_run_service_name = module.catalogue.service_name
+  backend_bucket_id      = var.backend_bucket_id
 }
