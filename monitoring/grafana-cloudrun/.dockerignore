@@ -1,0 +1,7 @@
+**
+!Dockerfile
+!entrypoint.sh
+!provisioning/
+!provisioning/**
+!dashboards/
+!dashboards/*.json

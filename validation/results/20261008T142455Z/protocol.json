@@ -1,0 +1,24 @@
+{
+  "target": "https://streambox.chaleonm.ovh",
+  "media": "/media/demo-1.mp4",
+  "media_bytes": 39631,
+  "phases": [
+    [
+      1,
+      120
+    ],
+    [
+      5,
+      60
+    ],
+    [
+      10,
+      60
+    ]
+  ],
+  "interval_seconds": 5,
+  "max_requests": 450,
+  "max_bytes": 10485760,
+  "max_active_seconds": 240,
+  "start": "2026-10-08T14:24:55.767957+00:00"
+}

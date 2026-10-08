@@ -1,0 +1,59 @@
+flowchart TB
+    subgraph Clients["Utilisateurs / Spectateurs"]
+        U["Navigateur Client / Apprenant"]
+    end
+
+    subgraph Edge["Google Cloud - Front-End & Edge Network"]
+        IP["IP Publique Globale Statique"]
+        FW["Forwarding Rules (HTTP 80 / HTTPS 443)"]
+        SSL["Certificat SSL Managé Google"]
+        ALB["Application Load Balancer Externe Global"]
+        UM["URL Map (Routage Intelligent)"]
+        CDN["Cloud CDN (Point de Présence Edge / Cache)"]
+    end
+
+    subgraph Compute["Couche Applicative (Serverless)"]
+        NEG["Serverless Network Endpoint Group (NEG)"]
+        CR["Cloud Run v2 Service : streambox-catalogue\n(Ingress: INTERNAL_LOAD_BALANCER)"]
+        SA_CR["Compte de Service Dédié : streambox-catalogue\n(Moindre Privilège)"]
+    end
+
+    subgraph Storage["Couche Stockage Objet (Cloud Storage)"]
+        BB["Backend Bucket : streambox-backend-media"]
+        GCS_MEDIA["Bucket GCS : bucket-insset-streambox-media\n(STANDARD, objets /media/*)"]
+        GCS_LOGS["Bucket GCS : bucket-insset-streambox-logs\n(COLDLINE, archives de logs)"]
+    end
+
+    subgraph Observability["Observabilité & Monitoring"]
+        MON["Cloud Monitoring (Dashboard 11 métriques)"]
+        ALERTS["Alerting Policies (5xx ratio > 1%, Latence p95 > 1s)"]
+        SINK["Cloud Logging Sink (streambox-log-archive)"]
+        EMAIL["Canal de Notification Email"]
+    end
+
+    %% Flux Spectateur
+    U -->|"1. Requête HTTPS (Port 443)"| IP
+    IP --> FW
+    FW --- SSL
+    FW --> ALB
+    ALB --> UM
+
+    %% Flux API Catalogue
+    UM -->|"2a. Route /api/* ou UI /"| NEG
+    NEG --> CR
+    SA_CR -.->|"Identité d'exécution"| CR
+
+    %% Flux Médias & Cache
+    UM -->|"2b. Route /media/*"| BB
+    BB --- CDN
+    CDN -->|"3a. Cache HIT : Servi directement depuis l'Edge"| U
+    CDN -->|"3b. Cache MISS : Récupération à l'origine"| GCS_MEDIA
+
+    %% Flux Observabilité
+    CR -.->|"Métriques & Logs"| MON
+    ALB -.->|"Métriques & Logs HTTP"| MON
+    MON --> ALERTS
+    ALERTS -->|"Notification"| EMAIL
+    ALB -.->|"Export des requêtes"| SINK
+    CR -.->|"Export des journaux"| SINK
+    SINK -->|"Écriture Cloud Storage"| GCS_LOGS

@@ -1,6 +1,6 @@
 # Observabilité StreamBox
 
-Ce module configure Cloud Monitoring, les alertes email et l'archivage des logs. La configuration locale de [Prometheus et Grafana](../../../monitoring/README.md) complète les outils GCP.
+Ce module configure Cloud Monitoring, les alertes email et l'archivage des logs. [Grafana sur Cloud Run](../../../monitoring/grafana-cloudrun/README.md) consulte les métriques GCP via un proxy Prometheus dans le même service. La configuration Docker locale reste une alternative de développement.
 
 ## Configuration du groupe
 
@@ -58,6 +58,8 @@ Sur un essai peu chargé, le minimum de 100 requêtes peut empêcher volontairem
 
 Les journaux restent dans **Cloud Logging / Logs Explorer** pour déboguer. Le sink copie les nouveaux logs du service Cloud Run et de l'URL map vers GCS. Il ne déplace pas les logs et ne modifie pas la rétention Cloud Logging existante.
 
+Attention aux types de ressources : les **logs** du Load Balancer utilisent `http_load_balancer`, alors que ses **métriques** utilisent `https_lb_rule`. Les filtres sont distincts ; un test Terraform vérifie cette différence.
+
 Son identité reçoit uniquement `roles/storage.objectCreator` sur le bucket d'archives. Le compte Prometheus n'a pas accès aux archives. Le bucket existe déjà et reste géré par le responsable des buckets : le module observability réutilise son nom et ajoute seulement le droit d'écriture du sink.
 
 Le contrôle GCP du 8 octobre 2026 a confirmé la classe COLDLINE, la région europe-west9 et l'absence de droits publics dans les politiques IAM consultées. La prévention d'accès public est `inherited` et aucune suppression automatique à 90 jours n'est configurée. Nous conservons ces réglages : les changements de protection ou de rétention sont à coordonner avec le responsable du bucket. Coldline a une durée minimale de stockage facturée de 90 jours, ce qui ne constitue pas une règle de suppression automatique. [Classes de stockage](https://docs.cloud.google.com/storage/docs/storage-classes).
@@ -101,21 +103,21 @@ Les [quatre tests](../../tests/observability.tftest.hcl) utilisent un provider s
 3. Initialiser avec le backend du groupe, puis relire le plan complet. La racine gère aussi les buckets ; ne pas utiliser `-target` comme méthode normale de déploiement.
 4. Appliquer le plan validé avec le groupe, puis consulter `terraform -chdir=terraform output observability`.
 5. Ouvrir le dashboard, vérifier le canal email dans Monitoring et effectuer sa vérification si demandée. Prouver ensuite la réception réelle des notifications.
-6. Lancer Prometheus/Grafana selon leur README et vérifier le sink après le délai d'export.
+6. Consulter [Grafana](https://streambox.chaleonm.ovh/monitoring/) et vérifier le sink après le délai d'export.
 
 L'initialisation locale avec `-backend=false` ne configure pas le state partagé.
 
 ### Intégration du 8 octobre 2026
 
-La branche `dev` a été intégrée avec les modules `media` et `catalogue`. Le plan complet retrouve correctement les buckets et le CDN, mais propose de créer le catalogue alors que le service et son compte existent déjà dans GCP. Le responsable du catalogue doit coordonner leur import ou la migration de leur state vers le backend commun, y compris le droit `run.invoker` géré par son module.
-
-Pour ce premier déploiement, un plan ciblant `module.observability` est utilisé exceptionnellement afin de laisser les ressources du catalogue intactes. Les dépendances de ce plan sont également relues : il ne doit créer ou modifier aucun bucket. Ne pas généraliser ce ciblage aux déploiements suivants ; refaire un plan complet après réconciliation du state du catalogue.
+La branche `dev` a été intégrée avec les modules `media` et `catalogue`. Le décalage initial entre le state partagé et les ressources du catalogue a été réconcilié avant le déploiement de Grafana. Les vérifications suivantes utilisent le plan complet ; le ciblage exceptionnel du premier déploiement observability n'est plus nécessaire.
 
 ### Déploiement observability effectué le 8 octobre 2026
 
 Terraform a ajouté les 12 ressources du module, sans modifier ou supprimer de ressource existante. Les activations d'API font partie de ce total, même lorsque l'API était déjà activée. Aucun bucket n'a été créé ; sa configuration de stockage est conservée. L'autorisation `storage.objectCreator` du sink a été ajoutée à la politique IAM du bucket d'archives.
 
-Les contrôles GCP ont confirmé le [dashboard de 11 graphiques](https://console.cloud.google.com/monitoring/dashboards/builder/c23026f8-a139-4094-bccd-6852839aa9a7?project=streambox-insset-m1-2026), les deux politiques d'alerte actives reliées au canal email, le sink `streambox-log-archive` vers le bucket existant et le compte de lecture Prometheus. Le bucket était encore vide au contrôle immédiatement après déploiement. La réception d'un email et l'arrivée effective des archives restent à prouver avec les essais du laboratoire et le délai d'export ; aucune panne artificielle n'a été déclenchée.
+Les contrôles GCP ont confirmé le [dashboard de 11 graphiques](https://console.cloud.google.com/monitoring/dashboards/builder/c23026f8-a139-4094-bccd-6852839aa9a7?project=streambox-insset-m1-2026), les deux politiques d'alerte actives reliées au canal email, le sink `streambox-log-archive` vers le bucket existant et le compte de lecture Prometheus.
+
+Les [essais du 8 octobre](../../../validation/README.md) ont confirmé les archives Cloud Run, les notifications des deux alertes et le retour à la normale sur un service temporaire privé. Le filtre d'archivage du Load Balancer a été corrigé et appliqué ; l'arrivée de ses premières archives après correction reste à contrôler après le délai d'export. Les ressources de test ont été supprimées.
 
 ## Diagnostic et preuves
 

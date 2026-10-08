@@ -1,5 +1,5 @@
 module "catalogue" {
-  source = "./modules/Catalogue"
+  source = "./modules/catalogue"
 
   project_id    = "streambox-insset-m1-2026"
   region        = "europe-west9"
@@ -38,13 +38,25 @@ module "observability" {
   create_prometheus_reader   = true
 }
 
-module "delivery" {
-  source = "./modules/delivery"
+module "grafana" {
+  source       = "./modules/grafana"
+  project_id   = "streambox-insset-m1-2026"
+  region       = "europe-west9"
+  service_name = "streambox-grafana"
+  public_url   = "https://streambox.chaleonm.ovh/monitoring/"
+  image        = "europe-west9-docker.pkg.dev/streambox-insset-m1-2026/streambox/grafana@sha256:9d1fd4241d432e858c0ad8523287c3fbef9f1537117e6e6ee028e0b4ff9eaaac"
+}
 
+module "delivery" {
+  source                 = "./modules/delivery"
   project_id             = "streambox-insset-m1-2026"
   region                 = module.catalogue.region
   cloud_run_service_name = module.catalogue.service_name
-  backend_bucket_id      = var.backend_bucket_id
+  backend_bucket_id      = module.media.backend_bucket_id
   domain_name            = "streambox.chaleonm.ovh"
   enable_https_redirect  = var.enable_https_redirect
+  monitoring = {
+    service_name = module.grafana.service_name
+    region       = module.grafana.region
+  }
 }
