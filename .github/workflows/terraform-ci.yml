@@ -6,12 +6,18 @@ on:
     paths:
       - "terraform/**"
       - "catalogue/**"
+      - "tests/load/**"
+      - "monitoring/grafana-cloudrun/**"
+      - ".github/workflows/load-test.yml"
       - ".github/workflows/terraform-ci.yml"
   push:
     branches: ["dev", "conformite"]
     paths:
       - "terraform/**"
       - "catalogue/**"
+      - "tests/load/**"
+      - "monitoring/grafana-cloudrun/**"
+      - ".github/workflows/load-test.yml"
       - ".github/workflows/terraform-ci.yml"
 
 permissions:
@@ -37,6 +43,9 @@ jobs:
 
       - name: Test Catalogue Load Demo
         run: node --test catalogue/tests/load-runner.test.mjs
+
+      - name: Test du générateur et de la publication client
+        run: python -m unittest discover -s tests/load -p "test_*.py"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
