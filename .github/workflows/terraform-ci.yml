@@ -5,11 +5,13 @@ on:
     branches: ["main", "dev"]
     paths:
       - "terraform/**"
+      - "catalogue/**"
       - ".github/workflows/terraform-ci.yml"
   push:
     branches: ["dev", "conformite"]
     paths:
       - "terraform/**"
+      - "catalogue/**"
       - ".github/workflows/terraform-ci.yml"
 
 permissions:
@@ -27,6 +29,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Test Catalogue Load Demo
+        run: node --test catalogue/tests/load-runner.test.mjs
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
