@@ -61,6 +61,7 @@ locals {
     "roles/monitoring.admin",
     "roles/logging.admin",
     "roles/iam.serviceAccountUser",
+    "roles/iam.serviceAccountAdmin",
     "roles/resourcemanager.projectIamAdmin",
     "roles/secretmanager.admin"
   ]
