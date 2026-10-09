@@ -49,5 +49,6 @@ terraform.rc
 !.env.example
 monitoring/.gcloud/
 *.tfplan
+/bucket/
 tests/load/results/
 __pycache__/

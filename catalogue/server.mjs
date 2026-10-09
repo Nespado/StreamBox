@@ -17,6 +17,14 @@ const assets = {
   '/carte.js': ['carte.js', 'text/javascript; charset=utf-8'],
   '/load-demo.js': ['load-demo.js', 'text/javascript; charset=utf-8'],
   '/load-runner.mjs': ['load-runner.mjs', 'text/javascript; charset=utf-8'],
+  '/v2': ['v2/index.html', 'text/html; charset=utf-8'],
+  '/v2/': ['v2/index.html', 'text/html; charset=utf-8'],
+  '/v2/style.css': ['v2/style.css', 'text/css; charset=utf-8'],
+  '/v2/app.mjs': ['v2/app.mjs', 'text/javascript; charset=utf-8'],
+  '/v2/progress.mjs': ['v2/progress.mjs', 'text/javascript; charset=utf-8'],
+  '/v2/cloud.png': ['v2/cloud.png', 'image/png'],
+  '/v2/terraform.png': ['v2/terraform.png', 'image/png'],
+  '/v2/cdn.png': ['v2/cdn.png', 'image/png'],
 };
 
 // Sur Cloud Run, K_SERVICE et K_REVISION sont fournis, et le serveur de métadonnées donne la région.
@@ -55,8 +63,9 @@ const server = http.createServer((req, res) => {
     const video = catalogue.find((item) => item.id === route[1]);
     return video ? send(res, 200, video) : send(res, 404, { erreur: 'vidéo inconnue' });
   }
-  if (assets[pathname]) {
-    const [file, type] = assets[pathname];
+  const asset = assets[pathname] || (/^\/v2\/video\/[a-z0-9-]+$/.test(pathname) ? assets['/v2'] : null);
+  if (asset) {
+    const [file, type] = asset;
     return send(res, 200, fs.readFileSync(new URL(`public/${file}`, here)), type);
   }
   if (pathname.startsWith('/media/')) {

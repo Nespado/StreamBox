@@ -42,7 +42,7 @@ jobs:
           node-version: "24"
 
       - name: Test Catalogue Load Demo
-        run: node --test catalogue/tests/load-runner.test.mjs
+        run: node --test catalogue/tests/*.test.mjs
 
       - name: Test du générateur et de la publication client
         run: python -m unittest discover -s tests/load -p "test_*.py"
