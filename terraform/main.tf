@@ -48,7 +48,7 @@ module "grafana" {
   region       = "europe-west9"
   service_name = "streambox-grafana"
   public_url   = "https://streambox.chaleonm.ovh/monitoring/"
-  image        = "europe-west9-docker.pkg.dev/streambox-insset-m1-2026/streambox/grafana@sha256:9d1fd4241d432e858c0ad8523287c3fbef9f1537117e6e6ee028e0b4ff9eaaac"
+  image        = "europe-west9-docker.pkg.dev/streambox-insset-m1-2026/streambox/grafana@sha256:5e5159e83c13aa94df503627d0c11367e834bfb7406aa0354c34262d5cbfe033"
 }
 
 module "delivery" {
