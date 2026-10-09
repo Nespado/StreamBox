@@ -1,0 +1,47 @@
+name: "Essai client - 1, 5 et 10 utilisateurs"
+
+on:
+  workflow_dispatch:
+    inputs:
+      execute:
+        description: "Lancer 4 min sur streambox.chaleonm.ovh (450 requêtes / 10 Mio maximum)"
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: streambox-lab-load-test
+  cancel-in-progress: false
+
+jobs:
+  measure:
+    if: github.ref == 'refs/heads/main' && inputs.execute
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test du générateur sans trafic réel
+        run: python -m unittest discover -s tests/load -p "test_*.py"
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/961226978803/locations/global/workloadIdentityPools/streambox-github-pool/providers/streambox-github-provider"
+          service_account: "streambox-ci-deployer@streambox-insset-m1-2026.iam.gserviceaccount.com"
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Essai borné et publication des métriques client
+        run: python tests/load/run.py --execute --publish
+      - name: Archiver protocole, requêtes, p95 et métriques publiées
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: essai-client-${{ github.run_id }}-${{ github.run_attempt }}
+          path: tests/load/results/
+          retention-days: 30
+          if-no-files-found: warn

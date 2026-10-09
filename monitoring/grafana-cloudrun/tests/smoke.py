@@ -62,6 +62,10 @@ def check_instance():
         data = json.loads(get("/api/dashboards/uid/streambox-observability"))
         assert data["meta"]["provisioned"]
         assert len(data["dashboard"]["panels"]) == 11
+        client = json.loads(get("/api/dashboards/uid/streambox-client-test"))
+        assert client["meta"]["provisioned"]
+        assert len(client["dashboard"]["panels"]) == 2
+        assert "latency_mean_ms" in client["dashboard"]["panels"][0]["targets"][0]["expr"]
         assert all("stackdriver_" not in t["expr"] for p in data["dashboard"]["panels"] for t in p["targets"])
         source = json.loads(get("/api/datasources/uid/streambox-prometheus"))
         assert source["url"] == "http://127.0.0.1:9090"

@@ -1,0 +1,231 @@
+{
+  "id": null,
+  "uid": "streambox-client-test",
+  "title": "StreamBox — Essai côté utilisateur",
+  "description": "Mesures réelles du générateur GitHub Actions. Courbes : moyenne par cycle de 5 secondes. Barres : p95 exact par palier. Aucune métrique Cloud Run utilisée comme latence client.",
+  "tags": [
+    "streambox",
+    "client",
+    "preuve"
+  ],
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "timezone": "Europe/Paris",
+  "refresh": "5s",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "run_id",
+        "label": "Essai GitHub",
+        "type": "textbox",
+        "query": "SELECT_RUN_ID",
+        "current": {
+          "text": "SELECT_RUN_ID",
+          "value": "SELECT_RUN_ID"
+        },
+        "options": [
+          {
+            "text": "SELECT_RUN_ID",
+            "value": "SELECT_RUN_ID",
+            "selected": true
+          }
+        ]
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Temps de réponse côté utilisateur — moyenne / 5 s",
+      "description": "Temps entre départ de requête et fin de téléchargement, depuis le runner GitHub Actions. Moyenne des réponses réussies par cycle. La ligne grise représente les utilisateurs simulés ; ce ne sont pas les instances Cloud Run.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 13
+      },
+      "interval": "5s",
+      "maxDataPoints": 1000,
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "custom_googleapis_com:streambox_load_test_latency_mean_ms{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\",route=\"api\"} and (time() - timestamp(custom_googleapis_com:streambox_load_test_latency_mean_ms{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\",route=\"api\"}) < 10)",
+          "legendFormat": "API catalogue",
+          "range": true,
+          "interval": "5s"
+        },
+        {
+          "refId": "B",
+          "expr": "custom_googleapis_com:streambox_load_test_latency_mean_ms{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\",route=\"media\"} and (time() - timestamp(custom_googleapis_com:streambox_load_test_latency_mean_ms{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\",route=\"media\"}) < 10)",
+          "legendFormat": "Média",
+          "range": true,
+          "interval": "5s"
+        },
+        {
+          "refId": "C",
+          "expr": "custom_googleapis_com:streambox_load_test_users{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\"} and (time() - timestamp(custom_googleapis_com:streambox_load_test_users{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\"}) < 10)",
+          "legendFormat": "Utilisateurs simulés",
+          "range": true,
+          "interval": "5s"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "min": 0,
+          "decimals": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "spanNulls": false,
+            "showPoints": "always",
+            "pointSize": 3,
+            "axisLabel": "Temps de réponse (ms)"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "API catalogue"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#E87A83"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Média"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#71CED6"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Utilisateurs simulés"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Utilisateurs"
+              },
+              {
+                "id": "custom.lineInterpolation",
+                "value": "stepAfter"
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "never"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#A6A6A6"
+                }
+              },
+              {
+                "id": "max",
+                "value": 12
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "bargauge",
+      "title": "p95 côté utilisateur — résultats par palier",
+      "description": "p95 nearest-rank exact calculé sur les requêtes réussies du palier : même valeur que summary.json dans l'artefact GitHub. Sélectionner une période incluant les fins des trois paliers.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "streambox-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 24,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max_over_time(custom_googleapis_com:streambox_load_test_phase_p95_ms{monitored_resource=\"global\",project_id=\"streambox-insset-m1-2026\",run_id=\"$run_id\"}[$__range])",
+          "legendFormat": "{{route}} · {{users}} utilisateur(s)",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "min": 0,
+          "decimals": 2,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#E87A83"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      }
+    }
+  ]
+}
