@@ -40,14 +40,14 @@ fi
 echo "[TEST 3/3] Vérification du CDN (/media/test.mp4) :"
 # Première requête pour peupler le cache
 echo -n "  - Requête 1 (Attendu : MISS ou HIT si déjà amorcé) ... "
-HEADER_1=$(curl -k -s -I "$TARGET_URL/media/video-1-720p.mp4" 2>/dev/null || true)
+HEADER_1=$(curl -k -s -I "$TARGET_URL/media/demo-1.mp4" 2>/dev/null || true)
 STATUS_1=$(echo "$HEADER_1" | grep -i "HTTP/" | tail -n1 | awk '{print $2}' || true)
 CACHE_1=$(echo "$HEADER_1" | grep -i "x-cache-status:" | awk '{print $2}' | tr -d '\r' || echo "UNKNOWN")
 echo "HTTP $STATUS_1, X-Cache-Status: $CACHE_1"
 
 # Deuxième requête (doit être servie depuis le cache)
 echo -n "  - Requête 2 (Attendu : HIT ou REVALIDATED) ... "
-HEADER_2=$(curl -k -s -I "$TARGET_URL/media/video-1-720p.mp4" 2>/dev/null || true)
+HEADER_2=$(curl -k -s -I "$TARGET_URL/media/demo-1.mp4" 2>/dev/null || true)
 STATUS_2=$(echo "$HEADER_2" | grep -i "HTTP/" | tail -n1 | awk '{print $2}' || true)
 CACHE_2=$(echo "$HEADER_2" | grep -i "x-cache-status:" | awk '{print $2}' | tr -d '\r' || echo "UNKNOWN")
 echo "HTTP $STATUS_2, X-Cache-Status: $CACHE_2"

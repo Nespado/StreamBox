@@ -16,9 +16,12 @@
   .path span { font: 12px/1.4 var(--mono); padding: 3px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--soft); }
   .path span.on { border-color: var(--accent); color: var(--accent); background: #eef4ff; }
   .path i { width: 14px; height: 1px; background: #94a3b8; }
+  .demo-progress { width: 100%; height: 10px; accent-color: var(--accent); }
+  .demo-results { margin-top: 14px; }
 </style>
 <script defer src="/carte.js"></script>
 <script defer src="/app.js"></script>
+<script type="module" src="/load-demo.js"></script>
 </head>
 <body style="--accent:#1a73e8">
 <header><div class="bar"><span class="mark"></span><span class="brand">StreamBox</span><span class="env" id="env">connexion…</span></div></header>
@@ -76,6 +79,33 @@
       <p class="muted small">Un temps court ne prouve pas un passage par le cache. Fiez-vous à l’en-tête de statut et, sur GCP, aux journaux du Load Balancer.</p>
     </section>
   </div>
+  <section class="panel" aria-labelledby="demo-title">
+    <h2 id="demo-title">Démonstration de charge</h2>
+    <p>10 utilisateurs simulés pendant 60 secondes. Chacun demande le catalogue et le petit fichier vidéo toutes les 5 secondes.</p>
+    <p class="row">
+      <button class="primary" id="demo-start">Simuler 10 utilisateurs · 60 s</button>
+      <button id="demo-stop" disabled>Arrêter</button>
+      <a class="button" id="demo-grafana" href="/monitoring/d/streambox-observability?from=now-15m&amp;to=now&amp;refresh=30s" target="_blank" rel="noopener">Ouvrir Grafana ↗</a>
+      <button id="demo-export" disabled>Exporter les résultats</button>
+    </p>
+    <p class="small" id="demo-status" role="status">Prêt. Le test vise uniquement l’API et /media/demo-1.mp4 de ce site.</p>
+    <progress class="demo-progress" id="demo-progress" max="60" value="0" aria-label="Durée de la simulation"></progress>
+    <div class="stats demo-results">
+      <div class="stat"><span>Temps écoulé</span><strong id="demo-time">0 / 60 s</strong></div>
+      <div class="stat"><span>Requêtes terminées</span><strong id="demo-count">0 / 240</strong></div>
+      <div class="stat"><span>Erreurs</span><strong id="demo-errors">0</strong></div>
+      <div class="stat"><span>Données reçues</span><strong id="demo-bytes">0 Mo</strong></div>
+    </div>
+    <div class="scroll demo-results"><table>
+      <thead><tr><th>Parcours</th><th>Réponses réussies</th><th>p95 côté navigateur</th><th>Cache CDN</th></tr></thead>
+      <tbody>
+        <tr><td>API catalogue</td><td id="demo-api-count">0 / 0</td><td id="demo-api-p95">—</td><td>Sans cache CDN</td></tr>
+        <tr><td>Petit fichier vidéo</td><td id="demo-media-count">0 / 0</td><td id="demo-media-p95">—</td><td id="demo-media-hits">0 HIT / 0 réponses</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted small">Grafana reçoit les métriques GCP avec plusieurs minutes de retard. Gardez cette page ouverte ; vous pouvez afficher Grafana dans un autre onglet ou une autre fenêtre. Le navigateur peut ralentir la simulation en arrière-plan.</p>
+    <p class="muted small">Limites : 240 requêtes au maximum, plus un contrôle du fichier ; arrêt à 8 Mo reçus, si une réponse atteint 1 Mo, après 3 erreurs consécutives ou plus de 5 % d’erreurs à partir de 20 réponses. Le p95 est le délai sous lequel se trouvent 95 % des réponses réussies. Ce test répète des téléchargements ; il ne lance pas 10 lecteurs vidéo.</p>
+  </section>
 </main>
 <footer>Démonstrateur du TP Insset GCP M1 2026. Il sert à vérifier l’infrastructure, il n’est pas évalué.</footer>
 </body>

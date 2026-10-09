@@ -15,6 +15,8 @@ const assets = {
   '/app.js': ['app.js', 'text/javascript; charset=utf-8'],
   '/kit.css': ['kit.css', 'text/css; charset=utf-8'],
   '/carte.js': ['carte.js', 'text/javascript; charset=utf-8'],
+  '/load-demo.js': ['load-demo.js', 'text/javascript; charset=utf-8'],
+  '/load-runner.mjs': ['load-runner.mjs', 'text/javascript; charset=utf-8'],
 };
 
 // Sur Cloud Run, K_SERVICE et K_REVISION sont fournis, et le serveur de métadonnées donne la région.
