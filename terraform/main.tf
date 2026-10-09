@@ -6,7 +6,7 @@ module "catalogue" {
   project_id    = "streambox-insset-m1-2026"
   region        = "europe-west9"
   service_name  = "streambox-catalogue"
-  image         = "europe-west9-docker.pkg.dev/streambox-insset-m1-2026/streambox/catalogue@sha256:501148f78b866e2f1494ce96e37d351e2e48403b54e172cfefd8ce60c338a034"
+  image         = "europe-west9-docker.pkg.dev/streambox-insset-m1-2026/streambox/catalogue@sha256:70cab4767e44df66078db219c6eda470e20965f1008a7a7844d0e11527ccbf08"
   max_instances = 2
 }
 

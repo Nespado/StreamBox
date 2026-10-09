@@ -49,3 +49,4 @@ terraform.rc
 !.env.example
 monitoring/.gcloud/
 *.tfplan
+/bucket/
