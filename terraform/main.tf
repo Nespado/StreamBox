@@ -1,6 +1,8 @@
 module "catalogue" {
   source = "./modules/catalogue"
 
+  depends_on = [google_project_iam_member.ci_artifact_reader]
+
   project_id    = "streambox-insset-m1-2026"
   region        = "europe-west9"
   service_name  = "streambox-catalogue"
@@ -39,6 +41,8 @@ module "observability" {
 }
 
 module "grafana" {
+  depends_on = [google_project_iam_member.ci_artifact_reader]
+
   source       = "./modules/grafana"
   project_id   = "streambox-insset-m1-2026"
   region       = "europe-west9"
